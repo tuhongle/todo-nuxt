@@ -1,7 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["nuxt-vuefire"],
+  modules: [
+    "nuxt-vuefire",
+    ["@nuxtjs/google-fonts", {
+      families: {
+        Inter: {
+          wght: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+        },
+      }
+    }],
+  ],
   vuefire: {
     auth: {
       enabled: true
