@@ -1,9 +1,11 @@
 <template>
     <div class="text-center">
-        Make with 
-        <font-awesome-icon class="text-danger" icon="fa-solid fa-face-kiss-wink-heart" />
-        by
-        <span class="fw-bold">Tu Hong Le</span>
+        <p class="lead">
+            Make with
+            <font-awesome-icon class="text-danger" icon="fa-solid fa-face-kiss-wink-heart" />
+            by
+            <span class="fw-bold">Tu Hong Le</span>
+        </p>
     </div>
 </template>
 

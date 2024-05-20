@@ -3,6 +3,6 @@
         <slot />
     </main>
     <footer>
-        <Footer />
+        <!-- <Footer /> -->
     </footer>
 </template>

@@ -1,8 +1,8 @@
 <template>
     <section class="project">
-        <div class="container-fluid">
+        <div class="container-fluid p-4">
             <div class="col-3">
-                ajojo
+                <Offcanvas />
             </div>
         </div>
     </section>

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     "nuxt-vuefire",
     ["@nuxtjs/google-fonts", {
       families: {
-        Inter: {
+        'Poppins': {
           wght: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         },
       }
