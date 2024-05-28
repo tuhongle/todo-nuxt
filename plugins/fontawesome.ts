@@ -1,4 +1,4 @@
-// For Nuxt 3
+/* // For Nuxt 3
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faFaceKissWinkHeart, faBars, faMagnifyingGlass, faAnglesRight, faListCheck, faNoteSticky, faPlus, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
@@ -12,4 +12,6 @@ library.add( faFaceKissWinkHeart, faBars, faMagnifyingGlass, faAnglesRight, faLi
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon, {})
-})
+}) */
+
+export default defineNuxtPlugin(() => {})

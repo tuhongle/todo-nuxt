@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         },
       }
     }],
+    '@nuxt/ui',
   ],
   vuefire: {
     auth: {
@@ -31,8 +32,12 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    '@/assets/style/main.scss',
-    'bootstrap/dist/css/bootstrap.min.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
-  ]
+    '@/assets/css/main.scss',
+    // 'bootstrap/dist/css/bootstrap.min.css',
+    // '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/css/tailwind.css',
+  ],
+  colorMode: {
+    preference: "light",
+  }
 })

@@ -1,102 +1,82 @@
 <template>
-    <div class="offcanvas-header">
-        <h3 class="offcanvas-title fw-bold">Menu</h3>
-        <button type="button" class="bg-transparent border-0" data-bs-dismiss="offcanvas">
-            <font-awesome-icon class="h4 mb-0" icon="fa-solid fa-bars" />
-        </button>
+    <div class="offcanvas-header flex items-center justify-between">
+        <h3 class="offcanvas-title text-3xl font-extrabold">Menu</h3>
+        <UButton class="text-black shadow-none" size="xl" color="transparent" icon="i-heroicons-bars-3" />
     </div>
     <div class="offcanvas-body">
-        <div class="row py-2 px-3">
-            <div class="input-group px-0 border border-1 rounded">
-                <button class="btn border-0 input-group-text">
-                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                </button>
-                <input type="text" class="form-control border-0 bg-transparent" placeholder="Search"></input>
-            </div>
+        <div class="py-2">
+            <UInput color="gray" placeholder="Search..." icon="i-heroicons-magnifying-glass" />
         </div>
-        <div class="row py-2 border-bottom border-1">
-            <h6 class="fw-bold">TASKS</h6>
+        <div class="py-2 border-b border-b-black">
+            <h6 class="font-bold text-xl">TASKS</h6>
             <ul class="tasks">
-                <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
-                        <font-awesome-icon class="fw-light me-3" icon="fa-solid fa-angles-right" />
+                <a class="" href="">
+                    <li class="flex py-2 items-center">
+                        <UIcon class="mr-3" name="i-heroicons-chevron-double-right" />
                         <span>Upcoming</span>
-                        <span class="badge text-bg-secondary ms-auto">12</span>
+                        <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
-                <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
-                        <font-awesome-icon class="fw-light me-3" icon="fa-solid fa-list-check" />
+                <a class="" href="">
+                    <li class="flex py-2 items-center">
+                        <UIcon class="mr-3" name="i-heroicons-list-bullet" />
                         <span>Today</span>
-                        <span class="badge text-bg-secondary ms-auto">12</span>
+                        <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
-                <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
-                        <font-awesome-icon class="fw-light me-3" icon="fa-solid fa-note-sticky" />
+                <a class="" href="">
+                    <li class="flex py-2 items-center">
+                        <UIcon class="mr-3" name="i-heroicons-shield-check" />
                         <span>Sticky Wall</span>
-                        <span class="badge text-bg-secondary ms-auto">12</span>
+                        <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
             </ul>
         </div>
-        <div class="row py-2 border-bottom border-1">
-            <h6 class="fw-bold">LISTS</h6>
+        <div class="py-2 border-b border-b-black">
+            <h6 class="font-bold text-xl">LISTS</h6>
             <ul class="lists">
                 <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
+                    <li class="flex py-2 items-center">
                         <span class="list-box"></span>
                         <span>Personal</span>
-                        <span class="badge text-bg-secondary ms-auto">12</span>
+                        <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
                 <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
+                    <li class="flex py-2 items-center">
                         <span class="list-box"></span>
                         <span>Work</span>
-                        <span class="badge text-bg-secondary ms-auto">12</span>
+                        <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
-                <button class="btn btn-outline-none">
-                    <font-awesome-icon class="fw-light me-3" icon="fa-solid fa-plus" />
-                    <span>Add new list</span>
-                </button>
+                <UButton icon="i-heroicons-plus" label="Add New List" />
             </ul>
             <div class="add-list p-3">
-                <div class="input-group">
-                    <!-- <input type="color"> -->
-                    <input type="text" class="form-control bg-transparent" placeholder="List Name">
-                </div>
+                <UButtonGroup size="md" orientation="horizontal">
+                    <UButton icon="i-heroicons-clipboard-document" color="gray" />
+                    <UInput placeholder="List Name" />
+                </UButtonGroup>
                 <div class="color-sample">
                     <div class="list-box"></div>
                 </div>
             </div>
         </div>
-        <div class="row py-2">
-            <h6 class="fw-bold">TAGS</h6>
-            <ul class="tags d-flex"> 
-                <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
-                        <span>Tag 1</span>
-                    </li>
+        <div class="py-2">
+            <h6 class="font-bold text-xl mb-3">TAGS</h6>
+            <ul class="tags flex mb-2"> 
+                <a class="" href="">
+                    <li class="flex items-center py-1 px-2 mr-2 text-nowrap rounded-lg bg-cyan-200">Tag 1</li>
                 </a>
-                <a class="text-reset text-decoration-none" href="">
-                    <li class="d-flex upcoming py-2 align-items-center">
-                        <span>Tag 2</span>
-                    </li>
+                <a class="" href="">
+                    <li class="flex items-center py-1 px-2 mr-2 text-nowrap rounded-lg bg-red-200">Tag 2</li>
                 </a>
-                <button class="btn btn-outline-none">
-                    <font-awesome-icon class="fw-light me-3" icon="fa-solid fa-plus" />
-                    <span>Add Tag</span>
-                </button>
             </ul>
+            <UButton color="gray" icon="i-heroicons-plus" label="Add Tag" />
         </div>
     </div>
-    <div class="offcanvas-footer">
-        <button class="logout btn btn-outline-none">
-            <font-awesome-icon class="me-3" icon="fa-solid fa-right-from-bracket" />
-            <span>Sign Out</span>
-        </button>
+    <div class="offcanvas-footer mt-auto">
+        <UButton class="text-black border-0 outline-none shadow-none" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
     </div>
 </template>
 
