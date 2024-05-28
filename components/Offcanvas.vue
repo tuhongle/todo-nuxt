@@ -1,5 +1,5 @@
 <template>
-    <div class="offcanvas-header flex items-center justify-between">
+    <div class="offcanvas-header flex items-center justify-between mb-6">
         <h3 class="offcanvas-title text-3xl font-extrabold">Menu</h3>
         <UButton class="text-black shadow-none" size="xl" color="transparent" icon="i-heroicons-bars-3" />
     </div>

@@ -1,10 +1,10 @@
 <template>
-    <div class="offcanvas-header flex justify-between items-center">
+    <div class="offcanvas-header flex justify-between items-center mb-6">
         <h5 class="offcanvas-title font-bold text-2xl">Task:</h5>
         <UButton icon="i-heroicons-x-mark" color="transparent" class="text-black shadow-none" size="xl" />
     </div>
     <div class="offcanvas-body">
-        <UInput color="transparent" class="border-1 border-gray-200 mb-3" />
+        <UInput color="transparent" class="border-1 border-gray-200 mb-3" size="md" placeholder="Renew driver's license" />
         <UTextarea color="transparent" size="xl" variant="outline" placeholder="Description" class="mb-3" autoresize :maxrows="5" />
         <div class="flex items-center mb-3">
             <span class="mr-5 font-medium">List</span>
