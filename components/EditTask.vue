@@ -8,7 +8,7 @@
         <UTextarea color="transparent" size="xl" variant="outline" placeholder="Description" class="mb-3" autoresize :maxrows="5" />
         <div class="flex items-center mb-3">
             <span class="mr-5 font-medium">List</span>
-            <USelectMenu :options="['Personal', 'Work', 'Mexico']" size="lg" placeholder="Select list..." color="transparent" />
+            <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="abc" color="transparent" />
         </div>
         <div class="date flex items-center mb-3">
             <span class="mr-5 fw-medium text-nowrap">Due date</span>
@@ -23,8 +23,8 @@
         <div class="tags flex items-center mb-5">
             <span class="mr-5 font-medium text-nowrap">Tags</span>
             <ul class="tag-items flex items-center mb-0">
-                <li class="tag-item mr-3 bg-green-500 py-1 px-2 rounded-xl font-bold">Tag 1</li>
-                <UButton icon="i-heroicons-plus" label="Add Tag" />
+                <li class="tag-item text-sm mr-3 bg-green-300 py-1 px-2 rounded-md font-semibold">Tag 1</li>
+                <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" square class="text-sm font-semibold" />
             </ul>
         </div>
         <h5 class="font-bold mb-4">Subtasks:</h5>
@@ -51,4 +51,6 @@
 import { format } from 'date-fns'
 
 const date = ref(new Date())
+
+const abc = ref('Personal')
 </script>

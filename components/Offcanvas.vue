@@ -7,76 +7,76 @@
         <div class="py-2">
             <UInput color="gray" placeholder="Search..." icon="i-heroicons-magnifying-glass" />
         </div>
-        <div class="py-2 border-b border-b-black">
-            <h6 class="font-bold text-xl">TASKS</h6>
+        <div class="py-2 border-b border-b-gray-300">
+            <h6 class="font-semibold text-lg">TASKS</h6>
             <ul class="tasks">
                 <a class="" href="">
                     <li class="flex py-2 items-center">
                         <UIcon class="mr-3" name="i-heroicons-chevron-double-right" />
-                        <span>Upcoming</span>
+                        <span class="text-sm font-semibold text-gray-700">Upcoming</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
                 <a class="" href="">
                     <li class="flex py-2 items-center">
                         <UIcon class="mr-3" name="i-heroicons-list-bullet" />
-                        <span>Today</span>
+                        <span class="text-sm font-semibold text-gray-700">Today</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
                 <a class="" href="">
                     <li class="flex py-2 items-center">
                         <UIcon class="mr-3" name="i-heroicons-shield-check" />
-                        <span>Sticky Wall</span>
+                        <span class="text-sm font-semibold text-gray-700">Sticky Wall</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
             </ul>
         </div>
-        <div class="py-2 border-b border-b-black">
-            <h6 class="font-bold text-xl">LISTS</h6>
-            <ul class="lists">
+        <div class="py-2 border-b border-b-gray-300">
+            <h6 class="font-semibold text-lg">LISTS</h6>
+            <ul class="lists mb-3">
                 <a class="text-reset text-decoration-none" href="">
                     <li class="flex py-2 items-center">
-                        <span class="list-box"></span>
-                        <span>Personal</span>
+                        <span class="list-box bg-green-500"></span>
+                        <span class="text-sm font-semibold text-gray-700">Personal</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
                 <a class="text-reset text-decoration-none" href="">
                     <li class="flex py-2 items-center">
-                        <span class="list-box"></span>
-                        <span>Work</span>
+                        <span class="list-box bg-green-500"></span>
+                        <span class="text-sm font-semibold text-gray-700">Work</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
-                <UButton icon="i-heroicons-plus" label="Add New List" />
+                <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add New List" class="font-semibold" />
             </ul>
-            <div class="add-list p-3">
-                <UButtonGroup size="md" orientation="horizontal">
-                    <UButton icon="i-heroicons-clipboard-document" color="gray" />
-                    <UInput placeholder="List Name" />
-                </UButtonGroup>
+            <div class="add-list p-3 border border-gray-200 rounded-md">
+                <div class="mb-2 flex items-center">
+                    <UInput type="color" :padded="false" color="gray" variant="none" />
+                    <UInput color="gray" variant="none" placeholder="List Name..." />
+                </div>
                 <div class="color-sample">
-                    <div class="list-box"></div>
+                    <div class="list-box bg-green-500"></div>
                 </div>
             </div>
         </div>
         <div class="py-2">
-            <h6 class="font-bold text-xl mb-3">TAGS</h6>
+            <h6 class="font-semibold text-lg mb-3">TAGS</h6>
             <ul class="tags flex mb-2"> 
                 <a class="" href="">
-                    <li class="flex items-center py-1 px-2 mr-2 text-nowrap rounded-lg bg-cyan-200">Tag 1</li>
+                    <li class="flex items-center py-1 px-2 mr-1 text-nowrap rounded-md font-semibold text-sm bg-cyan-200">Tag 1</li>
                 </a>
                 <a class="" href="">
-                    <li class="flex items-center py-1 px-2 mr-2 text-nowrap rounded-lg bg-red-200">Tag 2</li>
+                    <li class="flex items-center py-1 px-2 mr-1 text-nowrap rounded-md font-semibold text-sm bg-red-200">Tag 2</li>
                 </a>
             </ul>
-            <UButton color="gray" icon="i-heroicons-plus" label="Add Tag" />
+            <UButton square size="xs" color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" class="text-sm font-semibold"/>
         </div>
     </div>
     <div class="offcanvas-footer mt-auto">
-        <UButton class="text-black border-0 outline-none shadow-none" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
+        <UButton class="text-gray-700 font-semibold" variant="none" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
     </div>
 </template>
 

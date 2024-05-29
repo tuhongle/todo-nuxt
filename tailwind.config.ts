@@ -4,7 +4,9 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-            Quicksand: 'Quicksand'
+            Quicksand: 'Quicksand',
+            Poppins: 'Poppins',
+            Lexend: 'Lexend'
         }
       },
     },
