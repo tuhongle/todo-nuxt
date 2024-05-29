@@ -4,16 +4,16 @@
         <UButton icon="i-heroicons-x-mark" color="transparent" class="text-black shadow-none" size="xl" />
     </div>
     <div class="offcanvas-body">
-        <UInput color="transparent" class="border-1 border-gray-200 mb-3" size="md" placeholder="Renew driver's license" />
-        <UTextarea color="transparent" size="xl" variant="outline" placeholder="Description" class="mb-3" autoresize :maxrows="5" />
+        <UInput color="iron" variant="outline" class="mb-3" size="md" placeholder="Renew driver's license" />
+        <UTextarea color="iron" size="xl" variant="outline" placeholder="Description" class="mb-3" autoresize :maxrows="5" />
         <div class="flex items-center mb-3">
             <span class="mr-5 font-medium">List</span>
-            <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="abc" color="transparent" />
+            <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="abc" color="iron" />
         </div>
         <div class="date flex items-center mb-3">
-            <span class="mr-5 fw-medium text-nowrap">Due date</span>
+            <span class="mr-5 font-medium text-nowrap">Due date</span>
             <UPopover :popper="{ placement: 'bottom-start' }">
-                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
+                <UButton color="iron" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
 
                 <template #panel="{ close }">
                     <DatePicker v-model="date" is-required @close="close" />

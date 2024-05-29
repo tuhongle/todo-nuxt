@@ -5,11 +5,11 @@
     </div>
     <div class="offcanvas-body">
         <div class="py-2">
-            <UInput color="gray" placeholder="Search..." icon="i-heroicons-magnifying-glass" />
+            <UInput color="iron" placeholder="Search..." icon="i-heroicons-magnifying-glass" />
         </div>
         <div class="py-2 border-b border-b-gray-300">
             <h6 class="font-semibold text-lg">TASKS</h6>
-            <ul class="tasks">
+            <!-- <ul class="tasks">
                 <a class="" href="">
                     <li class="flex py-2 items-center">
                         <UIcon class="mr-3" name="i-heroicons-chevron-double-right" />
@@ -31,21 +31,31 @@
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
-            </ul>
+            </ul> -->
+            <UVerticalNavigation 
+            :links="links" 
+            :ui="{
+                label: 'text-sm font-semibold ml-1',
+                active: 'text-primary',
+                icon: {
+                    active: 'text-primary'
+                }
+            }" 
+            />
         </div>
         <div class="py-2 border-b border-b-gray-300">
             <h6 class="font-semibold text-lg">LISTS</h6>
             <ul class="lists mb-3">
                 <a class="text-reset text-decoration-none" href="">
                     <li class="flex py-2 items-center">
-                        <span class="list-box bg-green-500"></span>
+                        <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" />
                         <span class="text-sm font-semibold text-gray-700">Personal</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
                 </a>
                 <a class="text-reset text-decoration-none" href="">
                     <li class="flex py-2 items-center">
-                        <span class="list-box bg-green-500"></span>
+                        <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" />
                         <span class="text-sm font-semibold text-gray-700">Work</span>
                         <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                     </li>
@@ -81,5 +91,24 @@
 </template>
 
 <script setup lang="ts">
-
+const links = [
+    {
+        label: 'Upcoming',
+        icon: 'i-heroicons-chevron-double-right',
+        badge: '12',
+        to: '/upcoming'
+    },
+    {
+        label: 'Today',
+        icon: 'i-heroicons-list-bullet',
+        badge: '12',
+        to: '/today'
+    },
+    {
+        label: 'Sticky Wall',
+        icon: 'i-heroicons-shield-check',
+        badge: '12',
+        to: '/sticky-wall'
+    },
+]
 </script>
