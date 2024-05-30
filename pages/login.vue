@@ -14,7 +14,7 @@
             </div>
         </div>
         <p v-if="success" class="text-green-500 text-sm lg:text-md xl:text-lg 2xl:text-xl mb-3">Log in succesful</p>
-        <UButton block label="Log in" color="yellow" size="xl" class="text-gray-700 font-semibold mt-3 mb-5 text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="signin" />
+        <UButton block label="Log in" color="yellow" size="xl" class="text-gray-700 hover:text-gray-100 transition-all font-semibold mt-3 mb-5 text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="signin" />
         <UButton label="Forgot Password" color="iron" variant="ghost" class="text-semibold text-gray-500 mb-3 text-sm lg:text-md xl:text-lg 2xl:text-xl" />
         <UDivider label="or" class="text-gray-700 font-bold mb-5" />
         <div class="columns-2 mb-5">
@@ -23,7 +23,7 @@
         </div>
         <p class="font-semibold text-sm lg:text-md xl:text-lg 2xl:text-xl text-center mb-4">
             Don't have an account?
-            <UButton to="/signup" :padded="false" label="Sign up" class="text-sm lg:text-md xl:text-lg 2xl:text-xl text-primary font-bold" color="gray" variant="none" />
+            <UButton to="/signup" :padded="false" label="Sign up" class="text-sm lg:text-md xl:text-lg 2xl:text-xl text-primary hover:underline transition-all font-bold" color="gray" variant="none" />
         </p>
         <p class="text-red-700">{{ error }}</p>
     </div>
@@ -46,7 +46,7 @@ const userInfo = ref({
 
 const showEye = ref(false);
 const success = ref(false);
-const error = ref<string>()
+const error = ref<string>();
 
 const signin = async () => {
     try {
@@ -74,5 +74,25 @@ const signin = async () => {
         }
     }
 }
+
+onMounted(() => {
+    const showPass = document.getElementById('showPass');
+    
+    const input = document.getElementById('input') as HTMLInputElement;
+
+    watch(() => userInfo.value.pass, () => {
+        (userInfo.value.pass) ? showPass?.classList.remove('hidden') : (showPass?.classList.add('hidden'), input.type='password');
+    })
+
+    showPass?.addEventListener('click', () => {
+        if (input.type === 'password') {
+            input.type = 'text';
+            showEye.value = true;
+        } else {
+            input.type = 'password';
+            showEye.value = false;
+        }
+    })
+})
 
 </script>

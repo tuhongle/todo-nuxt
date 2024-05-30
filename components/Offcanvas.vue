@@ -86,7 +86,16 @@
         </div>
     </div>
     <div class="offcanvas-footer mt-auto">
-        <UButton class="text-gray-700 font-semibold" variant="none" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
+        <UPopover popper="{ placement: 'top' }">
+            <UButton class="text-gray-700 font-semibold cursor-pointer" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
+
+            <template #panel="{ close }">
+                <div class="p-4 rounded-md bg-gray-100">
+                    <UButton color="red" class="mr-3" label="Confirm" @click="signout" />
+                    <UButton color="gray" label="No" @click="close" />
+                </div>
+            </template>
+        </UPopover>
     </div>
 </template>
 
@@ -111,4 +120,15 @@ const links = [
         to: '/sticky-wall'
     },
 ]
+
+import { signOut } from 'firebase/auth'
+const auth = useFirebaseAuth();
+
+const signout = async () => {
+    try {
+        await signOut(auth);
+    } catch (err) {
+        console.log(err)
+    }
+}
 </script>

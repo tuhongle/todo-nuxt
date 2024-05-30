@@ -4,7 +4,7 @@
   </NuxtLayout>
 </template>
 
-<!-- <script setup>
+<script setup>
 const router = useRouter()
 const route = useRoute()
 const user = useCurrentUser()
@@ -21,4 +21,4 @@ onMounted(() => {
     }
   })
 })
-</script> -->
+</script>

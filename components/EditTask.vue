@@ -7,11 +7,11 @@
         <UInput color="iron" variant="outline" class="mb-3" size="md" placeholder="Renew driver's license" />
         <UTextarea color="iron" size="xl" variant="outline" placeholder="Description" class="mb-3" autoresize :maxrows="5" />
         <div class="flex items-center mb-3">
-            <span class="mr-5 font-medium">List</span>
+            <span class="mr-5 font-medium">List:</span>
             <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="abc" color="iron" />
         </div>
         <div class="date flex items-center mb-3">
-            <span class="mr-5 font-medium text-nowrap">Due date</span>
+            <span class="mr-5 font-medium text-nowrap">Due date:</span>
             <UPopover :popper="{ placement: 'bottom-start' }">
                 <UButton color="iron" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
 
@@ -21,7 +21,7 @@
             </UPopover>
         </div>
         <div class="tags flex items-center mb-5">
-            <span class="mr-5 font-medium text-nowrap">Tags</span>
+            <span class="mr-5 font-medium text-nowrap">Tags:</span>
             <ul class="tag-items flex items-center mb-0">
                 <li class="tag-item text-sm mr-3 bg-green-300 py-1 px-2 rounded-md font-semibold">Tag 1</li>
                 <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" square class="text-sm font-semibold" />

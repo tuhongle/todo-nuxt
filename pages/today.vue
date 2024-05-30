@@ -58,6 +58,10 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 
-const date = ref(new Date())
+const date = ref(new Date());
+
+const auth = useFirebaseAuth();
+
+console.log(auth)
 
 </script>

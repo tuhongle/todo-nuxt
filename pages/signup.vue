@@ -23,10 +23,10 @@
             </div>
             <p v-if="mismatch" class="text-sm lg:text-md xl:text-lg 2xl:text-xl text-red-500 font-semibold">Password mismatch!</p>
         </div>
-        <UButton block label="Sign up" color="yellow" size="xl" class="text-gray-700 font-semibold mb-5 text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="signup" />
+        <UButton block label="Sign up" color="yellow" size="xl" class="text-gray-700 hover:text-gray-100 transition-all font-semibold mb-5 text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="signup" />
         <p class="font-semibold text-sm lg:text-md xl:text-lg 2xl:text-xl text-center">
             Already have an account?
-            <UButton to="/login" :padded="false" label="Sign in" class="text-sm lg:text-md xl:text-lg 2xl:text-xl text-primary font-bold" color="gray" variant="none" />
+            <UButton to="/login" :padded="false" label="Sign in" class="text-sm lg:text-md xl:text-lg 2xl:text-xl text-primary hover:underline transition-all font-bold" color="gray" variant="none" />
         </p>
     </div>
 </template>
@@ -59,8 +59,7 @@ const signup = async () => {
     if (userInfo.value.pass === userInfo.value.repass) {
         try {
             await createUserWithEmailAndPassword(auth, userInfo.value.mail, userInfo.value.pass);
-            const user = useCurrentUser();
-            console.log(user);
+            return navigateTo({ path: '/today'});
         } catch (error) {
             console.log(error)
         }
