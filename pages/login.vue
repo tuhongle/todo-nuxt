@@ -18,8 +18,8 @@
         <UButton label="Forgot Password" color="iron" variant="ghost" class="text-semibold text-gray-500 mb-3 text-sm lg:text-md xl:text-lg 2xl:text-xl" />
         <UDivider label="or" class="text-gray-700 font-bold mb-5" />
         <div class="columns-2 mb-5">
-            <UButton label="Google" color="iron" variant="solid" size="lg" block class="text-sm lg:text-md xl:text-lg 2xl:text-xl" />
-            <UButton label="Facebook" color="iron" variant="solid" size="lg" block class="text-sm lg:text-md xl:text-lg 2xl:text-xl" />
+            <UButton label="Google" color="iron" variant="solid" size="lg" block class="text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="googleLogin" />
+            <UButton label="Facebook" color="iron" variant="solid" size="lg" block class="text-sm lg:text-md xl:text-lg 2xl:text-xl" @click="facebookLogin" />
         </div>
         <p class="font-semibold text-sm lg:text-md xl:text-lg 2xl:text-xl text-center mb-4">
             Don't have an account?
@@ -34,7 +34,10 @@ definePageMeta({
     layout: 'startup'
 })
 
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword,
+         signInWithPopup, GoogleAuthProvider,
+         FacebookAuthProvider
+    } from 'firebase/auth'
 
 const auth = useFirebaseAuth();
 const router = useRouter();
@@ -48,6 +51,7 @@ const showEye = ref(false);
 const success = ref(false);
 const error = ref<string>();
 
+// sign in direct with email and password
 const signin = async () => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, userInfo.value.mail, userInfo.value.pass);
@@ -74,6 +78,43 @@ const signin = async () => {
         }
     }
 }
+
+// Sign in with Google
+const googleProvider = new GoogleAuthProvider();
+
+const googleLogin = async () => {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        const user = result.user;
+    } catch(error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+    }
+}
+
+// sign in with Facebook
+const facebookProvider = new FacebookAuthProvider();
+
+const facebookLogin = async () => {
+    try {
+        const result = await signInWithPopup(auth, facebookProvider);
+        const user = result.user;
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential?.accessToken;
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = FacebookAuthProvider.credentialFromError(error);
+    }
+}
+
+// watching input then hide error message
+watch(() => userInfo.value.mail + userInfo.value.pass, () => error.value = '');
 
 onMounted(() => {
     const showPass = document.getElementById('showPass');

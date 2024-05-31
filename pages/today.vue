@@ -62,6 +62,8 @@ const date = ref(new Date());
 
 const auth = useFirebaseAuth();
 
-console.log(auth)
+const user = useCurrentUser();
+
+// console.log(user.value.email)
 
 </script>

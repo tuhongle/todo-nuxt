@@ -86,6 +86,7 @@
         </div>
     </div>
     <div class="offcanvas-footer mt-auto">
+        <p class="text-sm mb-2">Hello, <span class="underline text-blue-500">{{ user.email }}</span></p>
         <UPopover popper="{ placement: 'top' }">
             <UButton class="text-gray-700 font-semibold cursor-pointer" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
 
@@ -122,7 +123,10 @@ const links = [
 ]
 
 import { signOut } from 'firebase/auth'
+import { getCurrentUser } from 'vuefire'
+
 const auth = useFirebaseAuth();
+const user = await getCurrentUser();
 
 const signout = async () => {
     try {
