@@ -17,7 +17,11 @@ export default defineNuxtConfig({
       }
     }],
     '@nuxt/ui',
+    '@pinia/nuxt',
   ],
+  pinia: {
+    storesDirs: ['./stores/**'],
+  },
   vuefire: {
     auth: {
       enabled: true
