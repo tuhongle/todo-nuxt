@@ -5,8 +5,8 @@
     </div>
     <UInput color="iron" placeholder="Add New Task" icon="i-heroicons-plus" size="xl" class="mb-8" />
     <ul class="tasks">
-        <li class="border-b border-b-gray-300 pb-4 mb-3 shadow-sm" v-for="n in 4" :key="n">
-            <SingleTask />
+        <li class="border-b border-b-gray-200 pb-4 mb-3 shadow-sm pl-4" v-for="n in 4" :key="n">
+            <SingleTask size="lg" :showSubtasks="true" />
         </li>
     </ul>
 </template>
@@ -15,7 +15,5 @@
 const auth = useFirebaseAuth();
 
 const user = useCurrentUser();
-
-// console.log(user.value.email)
 
 </script>

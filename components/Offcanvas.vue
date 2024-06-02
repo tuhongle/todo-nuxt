@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="offcanvas-footer mt-auto">
-            <!-- <p class="text-sm mb-2">Hello, <span class="underline text-blue-500">{{ user.email }}</span></p> -->
+            <p v-if="user" class="text-sm mb-4">Hello, <span class="underline text-blue-500">{{ user.email }} </span></p>
             <UPopover popper="{ placement: 'top' }">
                 <UButton class="text-gray-700 font-semibold cursor-pointer" icon="i-heroicons-arrow-right-start-on-rectangle" color="transparent" label="Sign out" />
                 <template #panel="{ close }">
@@ -107,7 +107,8 @@ import { onMounted } from 'vue';
 import { getCurrentUser } from 'vuefire'
 
 const auth = useFirebaseAuth();
-const user = await getCurrentUser();
+// const user = await getCurrentUser();
+const user = useCurrentUser();
 
 const signout = async () => {
     try {

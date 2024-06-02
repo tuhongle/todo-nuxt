@@ -2,12 +2,12 @@
     <div class="flex justify-between items-center mb-2">
         <UCheckbox class="items-center">
             <template #label>
-                <span class="font-bold text-lg text-gray-500">Renew driver's license</span>
+                <span class="font-bold text-gray-500" :class="'text-'+size">Renew driver's license</span>
             </template>
         </UCheckbox>
         <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" @click="isTasksShowed = true" />
     </div>
-    <div class="flex justify-start items-center">
+    <div v-if="showSubtasks" class="flex justify-start items-center">
         <UPopover :popper="{ placement: 'bottom-start' }">
             <UButton class="mr-3" color="gray" size="2xs" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
 
@@ -33,4 +33,10 @@ const date = ref(new Date());
 
 const todoStore = useTodoStore();
 const { isTasksShowed } = storeToRefs(todoStore);
+
+defineProps<{
+    size: string,
+    showSubtasks: boolean
+}>();
+
 </script>

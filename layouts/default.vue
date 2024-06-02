@@ -37,7 +37,6 @@ watch(
         } else {
             n.value = 'col-span-11';
         }
-        console.log(n.value)
     },
     { immediate: true},
     { deep: true }
