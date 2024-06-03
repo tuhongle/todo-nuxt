@@ -8,8 +8,8 @@
                 <div :class="n">
                     <slot />
                 </div>
-                <div v-show="isTasksShowed" class="col-span-4">
-                    <EditTask />
+                <div v-if="isTasksShowed" class="col-span-4">
+                    <EditTask :currentTask />
                 </div>
             </div>
         </section>
@@ -20,10 +20,12 @@
 </template>
 
 <script setup lang="ts">
-const todoStore = useTodoStore();
-const { isOffcanvasShowed, isTasksShowed } = storeToRefs(todoStore);
+import { Timestamp } from 'firebase/firestore'
 
-const n = ref<string>()
+const todoStore = useTodoStore();
+const { isOffcanvasShowed, isTasksShowed, currentTask } = storeToRefs(todoStore);
+
+const n = ref<string>();
 
 watch(
     [isOffcanvasShowed, isTasksShowed],

@@ -75,6 +75,9 @@ const signin = async () => {
             case 'auth/invalid-credential':
                 error.value = "Please check again. Email or Password is wrong."
                 break;
+            case 'auth/network-request-failed':
+                error.value = "Connection Timeout. Please check your internet."
+                break;
         }
     }
 }

@@ -1,0 +1,33 @@
+/* @import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+
+$font-family-base: 'Quicksand', sans-sefif;
+
+$custom-colors: (
+    "grey": #F4F4F4,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+* {
+    font-family: $font-family-base !important;
+} */
+body input[type=color] {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+body input[type=color]::-moz-color-swatch {
+  border: none;
+}
+body input[type=color]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 0;
+}
+body input[type=color]::-webkit-color-swatch {
+  border: none;
+}
