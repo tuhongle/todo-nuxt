@@ -23,32 +23,30 @@
             </div>
             <div class="py-2 border-b border-b-gray-300">
                 <h6 class="font-semibold text-lg">LISTS</h6>
-                <ul class="lists mb-3">
-                    <a class="text-reset text-decoration-none" href="">
+                <TransitionGroup name="lists" class="lists mb-3" tag="ul">
+                    <a class="text-reset text-decoration-none" href="" v-for="list in lists" :key="list.id">
                         <li class="flex py-2 items-center">
-                            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" />
-                            <span class="text-sm font-semibold text-gray-700">Personal</span>
+                            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="list.color" />
+                            <span class="text-sm font-semibold text-gray-700 capitalize">{{ list.list }}</span>
                             <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                         </li>
                     </a>
-                    <a class="text-reset text-decoration-none" href="">
-                        <li class="flex py-2 items-center">
-                            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" />
-                            <span class="text-sm font-semibold text-gray-700">Work</span>
-                            <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
-                        </li>
-                    </a>
+                </TransitionGroup>
+                <UPopover>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add New List" class="font-semibold" />
-                </ul>
-                <div class="add-list p-3 border border-gray-200 rounded-md">
-                    <div class="mb-2 flex items-center">
-                        <UInput type="color" :padded="false" color="gray" variant="none" />
-                        <UInput color="gray" variant="none" placeholder="List Name..." />
-                    </div>
-                    <div class="color-sample">
-                        <div class="list-box bg-green-500"></div>
-                    </div>
-                </div>
+
+                    <template #panel>
+                        <div class="py-2 px-3 border border-gray-200 bg-gray-50 rounded-md">
+                            <div class="mb-2 flex items-center">
+                                <UInput type="color" :padded="false" color="gray" variant="none" v-model="newList.color" />
+                                <UInput color="gray" variant="none" placeholder="List Name..." v-model="newList.list" @keyup.enter="addNewList"/>
+                            </div>
+                            <div class="color-sample">
+                                <div class="list-box bg-green-500"></div>
+                            </div>
+                        </div>
+                    </template>
+                </UPopover>
             </div>
             <div class="py-2">
                 <h6 class="font-semibold text-lg mb-3">TAGS</h6>
@@ -103,8 +101,10 @@ const links = [
 
 import { signOut } from 'firebase/auth'
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
-import { getCurrentUser } from 'vuefire'
+import { onMounted, ref } from 'vue';
+
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { useCollection, useDocument, useFirestore } from 'vuefire'
 
 const auth = useFirebaseAuth();
 // const user = await getCurrentUser();
@@ -119,7 +119,25 @@ const signout = async () => {
 }
 
 const todoStore = useTodoStore();
-const {isOffcanvasShowed } = storeToRefs(todoStore);
+const {isOffcanvasShowed, lists } = storeToRefs(todoStore);
+
+// add new list
+const newList = ref({
+    list: '',
+    color: '#000000',
+})
+
+const newListInput = ref(null)
+
+const db = useFirestore();
+
+const addNewList = async () => {
+    await addDoc(collection(db, 'lists'), newList.value);
+    newList.value = {
+        list: '',
+        color: '#000000'
+    }
+}
 
 onMounted(() => {
     const openBars = document.getElementById('openBars');
@@ -145,8 +163,20 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #offCanvas {
     transition: all 0.3s ease-in-out;
+}
+
+.lists-move,
+.lists-enter-active,
+.lists-leave-active {
+    transition: all 0.3s ease;
+}
+
+.lists-enter-from,
+.lists-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
 }
 </style>

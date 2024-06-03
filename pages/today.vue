@@ -43,7 +43,7 @@ onMounted(() => {
     })
 })
 
-console.log(tasks.value)
+// console.log(tasks.value)
 
 </script>
 

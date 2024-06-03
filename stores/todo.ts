@@ -1,6 +1,6 @@
 import {ref} from 'vue'
 import { useFirestore, useCollection, useDocument } from 'vuefire'
-import { collection, Timestamp } from 'firebase/firestore'
+import { collection, doc } from 'firebase/firestore'
 import { singleTask } from '../types/type'
 
 export const useTodoStore = defineStore('todo',() => {
@@ -11,11 +11,13 @@ export const useTodoStore = defineStore('todo',() => {
 
     const tasks = useCollection(collection(db, 'tasks'));
 
+    const lists = useCollection(collection(db, 'lists'));
+
     const currentTask = ref<singleTask>();
 
     return {
         isOffcanvasShowed, isTasksShowed,
-        db, tasks, currentTask
+        db, tasks, currentTask, lists
     }
 })
 

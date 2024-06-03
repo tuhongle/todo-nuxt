@@ -9,7 +9,7 @@
             <UTextarea color="iron" size="xl" variant="outline" placeholder="Description" class="mb-4" autoresize :maxrows="5" v-model="currentTask.description" />
             <div class="flex items-center mb-4">
                 <span class="mr-5 font-medium">List:</span>
-                <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="currentTask.list" color="iron" />
+                <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="currentTask.list" color="iron" class="min-w-32" />
             </div>
             <div class="date flex items-center mb-4">
                 <span class="mr-5 font-medium text-nowrap">Due date:</span>
