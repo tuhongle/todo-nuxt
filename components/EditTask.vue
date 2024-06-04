@@ -9,7 +9,7 @@
             <UTextarea color="iron" size="xl" variant="outline" placeholder="Description" class="mb-4" autoresize :maxrows="5" v-model="currentTask.description" />
             <div class="flex items-center mb-4">
                 <span class="mr-5 font-medium">List:</span>
-                <USelectMenu size="sm" :options="['Personal', 'Work', 'Mexico']" v-model="currentTask.list" color="iron" class="min-w-32" />
+                <USelect size="sm" :options="title" v-model="currentTask.list.list" color="iron" class="min-w-32" />
             </div>
             <div class="date flex items-center mb-4">
                 <span class="mr-5 font-medium text-nowrap">Due date:</span>
@@ -25,7 +25,6 @@
                 <ul class="tag-items flex items-center mb-0" v-for="tag in currentTask.tags">
                     <li class="tag-item text-sm bg-green-300 py-1 px-2 rounded-md font-semibold text-nowrap">{{ tag }}</li>
                 </ul>
-                <!-- <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" square class="text-sm font-semibold" /> -->
                 <UButtonGroup class="flex items-center shadow">
                     <UButton icon="i-heroicons-plus" color="gray" variant="ghost" @click="addTags"/>
                     <UInput color="gray" variant="none" placeholder="Add Tag" v-model="newTag" id="addTags" style="max-width:75px !important;"/>
@@ -66,7 +65,7 @@ watch(date, () => {
 })
 
 const todoStore = useTodoStore();
-const { isTasksShowed } = storeToRefs(todoStore);
+const { isTasksShowed, lists } = storeToRefs(todoStore);
 
 const db = getFirestore();
 const taskRef = doc(db, 'tasks', props.currentTask.id);
@@ -108,6 +107,19 @@ const addTags = () => {
     newTag.value = '';
 }
 
+// retrieve titles of lists
+const title = lists.value.map(e => e.list)
+
+watch(
+    () => props.currentTask.list.list,
+    () => lists.value.forEach(element => {
+        if (element.list == props.currentTask.list.list) {
+            props.currentTask.list.color = element.color;
+        }
+    }),
+    { immediate: true}
+)
+
 onMounted(() => {
     const addSubTask = document.getElementById('addSubtask');
 
@@ -127,9 +139,14 @@ onMounted(() => {
 .subtasks-leave-active {
     transition: all 0.3s linear;
 }
+
 .subtasks-leave-to,
 .subtasks-enter-from {
     opacity: 0;
     transform: translateY(-20px)
+}
+
+option {
+    text-transform: capitalize;
 }
 </style>

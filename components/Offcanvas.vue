@@ -25,9 +25,9 @@
                 <h6 class="font-semibold text-lg">LISTS</h6>
                 <TransitionGroup name="lists" class="lists mb-3" tag="ul">
                     <a class="text-reset text-decoration-none" href="" v-for="list in lists" :key="list.id">
-                        <li class="flex py-2 items-center">
+                        <li class="flex py-2 px-3 items-center">
                             <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="list.color" />
-                            <span class="text-sm font-semibold text-gray-700 capitalize">{{ list.list }}</span>
+                            <span class="text-sm font-medium text-gray-700 capitalize">{{ list.list }}</span>
                             <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
                         </li>
                     </a>

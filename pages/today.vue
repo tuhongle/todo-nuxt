@@ -36,7 +36,10 @@ onMounted(() => {
                 subtasks: [],
                 tags: [],
                 description: '',
-                list: ''
+                list: {
+                    list: '',
+                    color: '',
+                }
             });
             today.value = '';
         };

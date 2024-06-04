@@ -5,7 +5,7 @@
                 <span class="font-bold text-gray-500" :class="'text-'+size">{{ task.title }}</span>
             </template>
         </UCheckbox>
-        <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" @click="isTasksShowed = true; currentTask = task" />
+        <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" class="hover:text-primary transition-all" @click="isTasksShowed = true; currentTask = task" />
     </div>
     <div v-if="showSubtasks" class="flex justify-start items-center pl-6">
         <UPopover :popper="{ placement: 'bottom-start' }">
@@ -20,8 +20,8 @@
             Subtasks
         </div>
         <div v-if="task.list" class="text-xs font-bold text-gray-500 task-list flex items-center border-l border-gray-200 pl-4">
-            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" />
-            <span class="capitalize">{{ task.list }}</span>
+            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="task.list.color" disabled />
+            <span class="capitalize">{{ task.list.list }}</span>
         </div>
     </div>
 </template>
