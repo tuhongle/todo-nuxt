@@ -22,12 +22,12 @@
             </div>
             <div class="tags flex items-center mb-5 flex-wrap gap-2">
                 <span class="mr-5 font-medium text-nowrap">Tags:</span>
-                <ul class="tag-items flex items-center mb-0" v-for="tag in currentTask.tags">
-                    <li class="tag-item text-sm bg-green-300 py-1 px-2 rounded-md font-semibold text-nowrap">{{ tag }}</li>
+                <ul class="tag-items flex items-center mb-0" v-for="tag in currentTask.tags" :key="tag">
+                    <li class="tag-item text-sm py-1 px-2 rounded-md font-semibold text-nowrap" :class="tag.color">{{ tag.title }}</li>
                 </ul>
                 <UButtonGroup class="flex items-center shadow">
                     <UButton icon="i-heroicons-plus" color="gray" variant="ghost" @click="addTags"/>
-                    <UInput color="gray" variant="none" placeholder="Add Tag" v-model="newTag" id="addTags" style="max-width:75px !important;"/>
+                    <UInput color="gray" variant="none" placeholder="Add Tag" v-model="newTag" style="max-width:75px !important;" @keydown.enter="addTags"/>
                 </UButtonGroup>
             </div>
             <h5 class="font-bold mb-4">Subtasks:</h5>
@@ -36,7 +36,7 @@
                 <UInput color="transparent" variant="none" class="border-0 outline-none shadow-none" placeholder="Add New Subtask" v-model="newSubtask" id="addSubtask"/>
             </UButtonGroup>
             <TransitionGroup name="subtasks" tag="ul" v-if="currentTask.subtasks" class="pl-5">
-                <li class="mb-2 flex justify-between" v-for="subtask in currentTask.subtasks">
+                <li class="mb-2 flex justify-between" v-for="subtask in currentTask.subtasks" :key="subtask">
                     <UCheckbox :label="subtask" />
                     <UButton icon="i-heroicons-trash" variant="ghost" color="gray" size="xs" @click="deleteSubtask(subtask)" />
                 </li>
@@ -53,6 +53,7 @@
 import { format } from 'date-fns'
 import type { singleTask } from '@/types/type.ts'
 import { getFirestore, doc, deleteDoc, updateDoc, Timestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { be } from 'date-fns/esm/locale'
 
 const props = defineProps<{
     currentTask: singleTask
@@ -69,6 +70,23 @@ const { isTasksShowed, lists } = storeToRefs(todoStore);
 
 const db = getFirestore();
 const taskRef = doc(db, 'tasks', props.currentTask.id);
+
+// create tag color
+const createTagColor = () => {
+    const r = useState('red', () => Math.floor(Math.random() * 255));
+    const g = useState('green', () => Math.floor(Math.random() * 255));
+    const b = useState('blue', () => Math.floor(Math.random() * 255));
+
+    r.value = r.value.toString(16);
+    g.value = g.value.toString(16);
+    b.value = b.value.toString(16);
+
+    if (r.value.length == 1) r.value = '0' + r.value;
+    if (g.value.length == 1) g.value = '0' + g.value;
+    if (b.value.length == 1) b.value = '0' + b.value;
+
+    return `bg-[#${r.value}${g.value}${b.value}]`
+}
 
 // function to delete task
 const deleteTask = async () => {
@@ -103,7 +121,10 @@ const deleteSubtask = (subtask) => {
 const newTag = ref<string>('');
 
 const addTags = () => {
-    props.currentTask.tags.push(newTag.value);
+    props.currentTask.tags.push({
+        title: newTag.value,
+        color: createTagColor(),
+    });
     newTag.value = '';
 }
 

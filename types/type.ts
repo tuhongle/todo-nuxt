@@ -6,10 +6,14 @@ export interface singleTask {
         list: string
         color: string
     }
-    tags: string[]
+    tags: {
+        title: string
+        color: string
+    }[]
     subtasks: string[]
     due_date: {
         seconds: number
         nanoseconds: number
     }
+    user: string
 }

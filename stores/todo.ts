@@ -1,7 +1,9 @@
-import {ref} from 'vue'
-import { useFirestore, useCollection, useDocument } from 'vuefire'
-import { collection, doc } from 'firebase/firestore'
+import { ref, computed, watchEffect } from 'vue'
+import { useFirestore, useCollection, useDocument, useCurrentUser } from 'vuefire'
+import { collection, where } from 'firebase/firestore'
 import { singleTask } from '../types/type'
+import { query } from 'firebase/database'
+import { getISOWeek } from 'date-fns'
 
 export const useTodoStore = defineStore('todo',() => {
     const isOffcanvasShowed = ref<boolean>(false);
@@ -9,7 +11,28 @@ export const useTodoStore = defineStore('todo',() => {
 
     const db = useFirestore();
 
-    const tasks = useCollection(collection(db, 'tasks'));
+    const user = useCurrentUser();
+
+    const allTasks = useCollection(collection(db, 'tasks'));
+
+    const taskQuery = computed(() => query(collection(db, 'tasks'), where('user', '==', user.value?.uid)))
+
+    const tasks = useCollection<singleTask>(taskQuery);
+
+    const todayTasks = ref<singleTask[]>();
+    const tomorrowTasks = ref<singleTask[]>();
+    const weekTasks = ref<singleTask[]>();
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    watchEffect(
+        () => {
+            todayTasks.value = tasks.value.filter(el => new Date(el.due_date.seconds * 1000).toDateString() == new Date().toDateString());
+            tomorrowTasks.value = tasks.value.filter(el => new Date(el.due_date.seconds * 1000).toDateString() == tomorrow.toDateString());
+            weekTasks.value = tasks.value.filter(el => getISOWeek(new Date(el.due_date.seconds * 1000)) == getISOWeek(new Date()));
+        },
+    )
 
     const lists = useCollection(collection(db, 'lists'));
 
@@ -17,7 +40,8 @@ export const useTodoStore = defineStore('todo',() => {
 
     return {
         isOffcanvasShowed, isTasksShowed,
-        db, tasks, currentTask, lists
+        db, tasks, currentTask, lists,
+        allTasks, todayTasks, tomorrowTasks, weekTasks
     }
 })
 

@@ -78,36 +78,14 @@
 </template>
 
 <script setup lang="ts">
-const links = [
-    {
-        label: 'Upcoming',
-        icon: 'i-heroicons-chevron-double-right',
-        badge: '12',
-        to: '/upcoming'
-    },
-    {
-        label: 'Today',
-        icon: 'i-heroicons-list-bullet',
-        badge: '12',
-        to: '/today'
-    },
-    {
-        label: 'Sticky Wall',
-        icon: 'i-heroicons-shield-check',
-        badge: '12',
-        to: '/sticky-wall'
-    },
-]
-
 import { signOut } from 'firebase/auth'
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
 import { useCollection, useDocument, useFirestore } from 'vuefire'
 
 const auth = useFirebaseAuth();
-// const user = await getCurrentUser();
 const user = useCurrentUser();
 
 const signout = async () => {
@@ -119,7 +97,34 @@ const signout = async () => {
 }
 
 const todoStore = useTodoStore();
-const {isOffcanvasShowed, lists } = storeToRefs(todoStore);
+const { isOffcanvasShowed, lists, todayTasks, allTasks } = storeToRefs(todoStore);
+
+const links = ref<{}[]>();
+
+watchEffect(
+    () => {
+        links.value = [
+            {
+                label: 'Upcoming',
+                icon: 'i-heroicons-chevron-double-right',
+                badge: allTasks.value.length.toString(),
+                to: '/upcoming'
+            },
+            {
+                label: 'Today',
+                icon: 'i-heroicons-list-bullet',
+                badge: todayTasks.value.length.toString(),
+                to: '/today'
+            },
+            {
+                label: 'Sticky Wall',
+                icon: 'i-heroicons-shield-check',
+                badge: '12',
+                to: '/sticky-wall'
+            },
+        ]
+    }
+)
 
 // add new list
 const newList = ref({
