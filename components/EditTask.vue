@@ -22,8 +22,8 @@
             </div>
             <div class="tags flex items-center mb-5 flex-wrap gap-2">
                 <span class="mr-5 font-medium text-nowrap">Tags:</span>
-                <ul class="tag-items flex items-center mb-0" v-for="tag in currentTask.tags" :key="tag">
-                    <li class="tag-item text-sm py-1 px-2 rounded-md font-semibold text-nowrap" :class="tag.color">{{ tag.title }}</li>
+                <ul class="tag-items flex items-center mb-0">
+                    <li class="tag-item text-sm py-1 px-2 rounded-md font-semibold text-nowrap mr-1" :style="{background: tag.color}" v-for="tag in currentTask.tags" :key="tag.color">{{ tag.title }}</li>
                 </ul>
                 <UButtonGroup class="flex items-center shadow">
                     <UButton icon="i-heroicons-plus" color="gray" variant="ghost" @click="addTags"/>
@@ -52,8 +52,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import type { singleTask } from '@/types/type.ts'
-import { getFirestore, doc, deleteDoc, updateDoc, Timestamp, arrayUnion, arrayRemove } from 'firebase/firestore'
-import { be } from 'date-fns/esm/locale'
+import { getFirestore, doc, deleteDoc, updateDoc, Timestamp, addDoc, collection } from 'firebase/firestore'
 
 const props = defineProps<{
     currentTask: singleTask
@@ -66,26 +65,26 @@ watch(date, () => {
 })
 
 const todoStore = useTodoStore();
-const { isTasksShowed, lists } = storeToRefs(todoStore);
+const { isTasksShowed, lists, tags } = storeToRefs(todoStore);
 
 const db = getFirestore();
 const taskRef = doc(db, 'tasks', props.currentTask.id);
 
 // create tag color
 const createTagColor = () => {
-    const r = useState('red', () => Math.floor(Math.random() * 255));
-    const g = useState('green', () => Math.floor(Math.random() * 255));
-    const b = useState('blue', () => Math.floor(Math.random() * 255));
+    let r : number | string = Math.floor(Math.random() * 255);
+    let g : number | string = Math.floor(Math.random() * 255);
+    let b : number | string = Math.floor(Math.random() * 255);
 
-    r.value = r.value.toString(16);
-    g.value = g.value.toString(16);
-    b.value = b.value.toString(16);
+    r = r.toString(16);
+    g = g.toString(16);
+    b = b.toString(16);
 
-    if (r.value.length == 1) r.value = '0' + r.value;
-    if (g.value.length == 1) g.value = '0' + g.value;
-    if (b.value.length == 1) b.value = '0' + b.value;
+    if (r.length == 1) r = '0' + r;
+    if (g.length == 1) g = '0' + g;
+    if (b.length == 1) b = '0' + b;
 
-    return `bg-[#${r.value}${g.value}${b.value}]`
+    return `#${r}${g}${b}`
 }
 
 // function to delete task
@@ -120,11 +119,18 @@ const deleteSubtask = (subtask) => {
 // add tags
 const newTag = ref<string>('');
 
-const addTags = () => {
-    props.currentTask.tags.push({
+const addTags = async () => {
+    const color = createTagColor();
+    if (newTag.value) {
+        props.currentTask.tags.push({
+            title: newTag.value,
+            color: color,
+        });
+    };
+    await addDoc(collection(db, 'tags'), {
         title: newTag.value,
-        color: createTagColor(),
-    });
+        color: color,
+    })
     newTag.value = '';
 }
 

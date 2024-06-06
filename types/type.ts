@@ -5,6 +5,7 @@ export interface singleTask {
     list: {
         list: string
         color: string
+        count: number
     }
     tags: {
         title: string

@@ -5,7 +5,7 @@
                 <span class="font-bold text-gray-500" :class="'text-'+size">{{ task.title }}</span>
             </template>
         </UCheckbox>
-        <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" class="hover:text-primary transition-all" @click="isTasksShowed = true; currentTask = task" />
+        <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" class="hover:text-primary transition-all" @click="openEditTask" />
     </div>
     <div v-if="showSubtasks" class="flex justify-start items-center pl-6">
         <UPopover :popper="{ placement: 'bottom-start' }">
@@ -46,6 +46,14 @@ watch(
     () => {
         date.value = new Date(props.task.due_date.seconds * 1000);
     }
-)
+);
+
+const openEditTask = () => {
+    isTasksShowed.value = false;
+    setTimeout(() => {
+        isTasksShowed.value = true;
+        currentTask.value = props.task;
+    }, 250);
+}
 
 </script>

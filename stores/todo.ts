@@ -36,12 +36,15 @@ export const useTodoStore = defineStore('todo',() => {
 
     const lists = useCollection(collection(db, 'lists'));
 
+    const tags = useCollection(collection(db, 'tags'));
+
     const currentTask = ref<singleTask>();
 
     return {
         isOffcanvasShowed, isTasksShowed,
         db, tasks, currentTask, lists,
-        allTasks, todayTasks, tomorrowTasks, weekTasks
+        allTasks, todayTasks, tomorrowTasks, weekTasks,
+        tags
     }
 })
 

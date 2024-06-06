@@ -26,9 +26,9 @@
                 <TransitionGroup name="lists" class="lists mb-3" tag="ul">
                     <a class="text-reset text-decoration-none" href="" v-for="list in lists" :key="list.id">
                         <li class="flex py-2 px-3 items-center">
-                            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="list.color" />
+                            <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="list.color" @change="updateColor(list.id, list.color)" />
                             <span class="text-sm font-medium text-gray-700 capitalize">{{ list.list }}</span>
-                            <UBadge color="gray" variant="solid" class="ml-auto">12</UBadge>
+                            <UBadge color="gray" variant="solid" class="ml-auto">{{ list.count }}</UBadge>
                         </li>
                     </a>
                 </TransitionGroup>
@@ -41,24 +41,21 @@
                                 <UInput type="color" :padded="false" color="gray" variant="none" v-model="newList.color" />
                                 <UInput color="gray" variant="none" placeholder="List Name..." v-model="newList.list" @keyup.enter="addNewList"/>
                             </div>
-                            <div class="color-sample">
-                                <div class="list-box bg-green-500"></div>
-                            </div>
                         </div>
                     </template>
                 </UPopover>
             </div>
             <div class="py-2">
                 <h6 class="font-semibold text-lg mb-3">TAGS</h6>
-                <ul class="tags flex mb-2">
-                    <a class="" href="">
-                        <li class="flex items-center py-1 px-2 mr-1 text-nowrap rounded-md font-semibold text-sm bg-cyan-200">Tag 1</li>
-                    </a>
-                    <a class="" href="">
-                        <li class="flex items-center py-1 px-2 mr-1 text-nowrap rounded-md font-semibold text-sm bg-red-200">Tag 2</li>
-                    </a>
+                <ul class="tags flex flex-wrap mb-2 mr-1">
+                    <li class="py-1 px-2 mr-1 mb-1 text-nowrap rounded-md font-semibold text-sm" v-for="tag in tags" :key="tag.color" :style="{ background: tag.color }">
+                        <a href="" class="group flex items-center">
+                            <span class="mr-1">{{ tag.title }}</span>
+                            <UButton :padded="false" icon="i-heroicons-x-mark" variant="none" size="2xs" class="hidden group-hover:block hover:scale-125 transition-all" @click="deleteTag(tag.id)" />
+                        </a>
+                    </li>
                 </ul>
-                <UButton square size="xs" color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" class="text-sm font-semibold"/>
+                <!-- <UButton square size="xs" color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" class="text-sm font-semibold"/> -->
             </div>
         </div>
         <div class="offcanvas-footer mt-auto">
@@ -82,7 +79,7 @@ import { signOut } from 'firebase/auth'
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watchEffect } from 'vue';
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { useCollection, useDocument, useFirestore } from 'vuefire'
 
 const auth = useFirebaseAuth();
@@ -97,7 +94,7 @@ const signout = async () => {
 }
 
 const todoStore = useTodoStore();
-const { isOffcanvasShowed, lists, todayTasks, allTasks } = storeToRefs(todoStore);
+const { isOffcanvasShowed, lists, todayTasks, allTasks, tags } = storeToRefs(todoStore);
 
 const links = ref<{}[]>();
 
@@ -122,7 +119,10 @@ watchEffect(
                 badge: '12',
                 to: '/sticky-wall'
             },
-        ]
+        ];
+        lists.value.forEach(el => {
+            
+        })
     }
 )
 
@@ -142,6 +142,19 @@ const addNewList = async () => {
         list: '',
         color: '#000000'
     }
+}
+
+// update list color
+const updateColor = async (id, color) => {
+    await updateDoc(doc(db, 'lists', id), {
+        "color": color
+    })
+}
+
+// delete tag
+const deleteTag = async (id) => {
+    await deleteDoc(doc(db, 'tags', id));
+    isOffcanvasShowed.value = true;
 }
 
 onMounted(() => {

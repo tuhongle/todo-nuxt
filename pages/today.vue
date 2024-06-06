@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center mb-10">
-        <h1 class="font-bold text-5xl mr-10 bg-[#050006]">Today</h1>
+        <h1 class="font-bold text-5xl mr-10">Today</h1>
         <UBadge :label="todayTasks.length" color="gray" class="aspect-square text-4xl px-4" />
     </div>
     <UInput color="iron" placeholder="Add New Task" icon="i-heroicons-plus" size="xl" class="mb-8" id="todayAddTask" v-model="today" />
@@ -45,6 +45,7 @@ onMounted(() => {
                 list: {
                     list: '',
                     color: '',
+                    count: 0,
                 },
                 user: user.value!.uid
             });
