@@ -1,15 +1,15 @@
 <template>
     <div class="flex justify-between items-center mb-2">
-        <UCheckbox class="items-center">
+        <UCheckbox class="items-center" v-model="task.completed" @change="updateTask" >
             <template #label>
-                <span class="font-bold text-gray-500" :class="'text-'+size">{{ task.title }}</span>
+                <span class="font-bold text-gray-500" :class="[{'line-through opacity-50': task.completed} , 'text-'+size]">{{ task.title }}</span>
             </template>
         </UCheckbox>
         <UButton color="gray" variant="none" icon="i-heroicons-chevron-right" class="hover:text-primary transition-all" @click="openEditTask" />
     </div>
-    <div v-if="showSubtasks" class="flex justify-start items-center pl-6">
+    <div v-if="showSubtasks" class="flex justify-start items-center pl-6" :class="{'opacity-25': task.completed}">
         <UPopover :popper="{ placement: 'bottom-start' }">
-            <UButton class="mr-3" color="gray" size="2xs" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
+            <UButton class="mr-3" color="gray" size="2xs" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" :disabled="task.completed" />
 
             <template #panel="{ close }">
                 <DatePicker v-model="date" is-required @close="close" />
@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
+import { doc, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
 import type { SingleTask } from '~/types/type.ts'
 
 const todoStore = useTodoStore();
@@ -48,12 +49,23 @@ watch(
     }
 );
 
+watch(date, () => updateTask());
+
 const openEditTask = () => {
     isTasksShowed.value = false;
     setTimeout(() => {
         isTasksShowed.value = true;
         currentTask.value = props.task;
     }, 250);
+}
+
+const db = getFirestore();
+
+const updateTask = async () => {
+    await updateDoc(doc(db, 'tasks', props.task.id), {
+        "completed": props.task.completed,
+        "due_date": Timestamp.fromDate(date.value)
+    })
 }
 
 </script>

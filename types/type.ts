@@ -5,7 +5,6 @@ export interface singleTask {
     list: {
         list: string
         color: string
-        count: number
     }
     tags: {
         title: string
@@ -17,4 +16,15 @@ export interface singleTask {
         nanoseconds: number
     }
     user: string
+}
+
+export interface singleList {
+    list: string
+    color: string
+    count: number
+}
+
+export interface singleTag {
+    title: string
+    color: string
 }

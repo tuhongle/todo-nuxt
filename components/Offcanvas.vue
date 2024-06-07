@@ -1,12 +1,14 @@
 <template>
     <div v-show="isOffcanvasShowed" class="h-full p-4 rounded-xl flex flex-col -ml-48" id="offCanvas">
         <div class="offcanvas-header flex items-center justify-between mb-6">
-            <h3 class="offcanvas-title text-3xl font-extrabold">Menu</h3>
+            <ULink to="/today">
+                <h3 class="offcanvas-title text-3xl font-extrabold">Menu</h3>
+            </ULink>
             <UButton class="text-black shadow-none" size="xl" color="transparent" icon="i-heroicons-bars-3" id="closeBars" />
         </div>
         <div class="offcanvas-body">
             <div class="py-2">
-                <UInput color="iron" placeholder="Search..." icon="i-heroicons-magnifying-glass" />
+                <UInput color="iron" placeholder="Search..." icon="i-heroicons-magnifying-glass" v-model="search" @keydown.enter="searchTitle" />
             </div>
             <div class="py-2 border-b border-b-gray-300">
                 <h6 class="font-semibold text-lg">TASKS</h6>
@@ -24,13 +26,13 @@
             <div class="py-2 border-b border-b-gray-300">
                 <h6 class="font-semibold text-lg">LISTS</h6>
                 <TransitionGroup name="lists" class="lists mb-3" tag="ul">
-                    <a class="text-reset text-decoration-none" href="" v-for="list in lists" :key="list.id">
+                    <NuxtLink :to="'/lists/'+list.list" class="text-reset text-decoration-none" v-for="list in lists" :key="list.id">
                         <li class="flex py-2 px-3 items-center">
                             <UInput type="color" :padded="false" color="gray" variant="none" class="mr-3" v-model="list.color" @change="updateColor(list.id, list.color)" />
                             <span class="text-sm font-medium text-gray-700 capitalize">{{ list.list }}</span>
                             <UBadge color="gray" variant="solid" class="ml-auto">{{ list.count }}</UBadge>
                         </li>
-                    </a>
+                    </NuxtLink>
                 </TransitionGroup>
                 <UPopover>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-plus" label="Add New List" class="font-semibold" />
@@ -48,11 +50,9 @@
             <div class="py-2">
                 <h6 class="font-semibold text-lg mb-3">TAGS</h6>
                 <ul class="tags flex flex-wrap mb-2 mr-1">
-                    <li class="py-1 px-2 mr-1 mb-1 text-nowrap rounded-md font-semibold text-sm" v-for="tag in tags" :key="tag.color" :style="{ background: tag.color }">
-                        <a href="" class="group flex items-center">
-                            <span class="mr-1">{{ tag.title }}</span>
-                            <UButton :padded="false" icon="i-heroicons-x-mark" variant="none" size="2xs" class="hidden group-hover:block hover:scale-125 transition-all" @click="deleteTag(tag.id)" />
-                        </a>
+                    <li class="group flex items-center py-1 px-2 mr-1 mb-1 text-nowrap rounded-md font-semibold text-sm" v-for="tag in tags" :key="tag.color" :style="{ background: tag.color }">
+                        <span class="mr-1">{{ tag.title }}</span>
+                        <UButton :padded="false" icon="i-heroicons-x-mark" variant="none" size="2xs" class="hidden group-hover:block hover:scale-125 transition-all" @click="deleteTag(tag.id)" />
                     </li>
                 </ul>
                 <!-- <UButton square size="xs" color="gray" variant="ghost" icon="i-heroicons-plus" label="Add Tag" class="text-sm font-semibold"/> -->
@@ -94,7 +94,7 @@ const signout = async () => {
 }
 
 const todoStore = useTodoStore();
-const { isOffcanvasShowed, lists, todayTasks, allTasks, tags } = storeToRefs(todoStore);
+const { isOffcanvasShowed, lists, todayTasks, tasks, tags } = storeToRefs(todoStore);
 
 const links = ref<{}[]>();
 
@@ -104,7 +104,7 @@ watchEffect(
             {
                 label: 'Upcoming',
                 icon: 'i-heroicons-chevron-double-right',
-                badge: allTasks.value.length.toString(),
+                badge: tasks.value.length.toString(),
                 to: '/upcoming'
             },
             {
@@ -113,12 +113,12 @@ watchEffect(
                 badge: todayTasks.value.length.toString(),
                 to: '/today'
             },
-            {
-                label: 'Sticky Wall',
-                icon: 'i-heroicons-shield-check',
-                badge: '12',
-                to: '/sticky-wall'
-            },
+            // {
+            //     label: 'Sticky Wall',
+            //     icon: 'i-heroicons-shield-check',
+            //     badge: '12',
+            //     to: '/sticky-wall'
+            // },
         ];
         lists.value.forEach(el => {
             
@@ -155,6 +155,14 @@ const updateColor = async (id, color) => {
 const deleteTag = async (id) => {
     await deleteDoc(doc(db, 'tags', id));
     isOffcanvasShowed.value = true;
+}
+
+// search title
+const search = ref<string>();
+
+const searchTitle = async () => {
+    await navigateTo(`/search/title-${search.value}`);
+    search.value = '';
 }
 
 onMounted(() => {

@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center mb-10">
         <h1 class="font-bold text-5xl mr-10">Upcoming</h1>
-        <UBadge label="12" color="gray" class="aspect-square text-4xl px-4" />
+        <UBadge :label="tasks.length" color="gray" class="aspect-square text-4xl px-4" />
     </div>
     <div class="rounded-lg p-4 border border-gray-100">
         <h3 class="font-bold text-xl mb-6">Today</h3>
@@ -42,7 +42,7 @@ import { useTodoStore } from '../stores/todo';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 
 const todoStore = useTodoStore();
-const { todayTasks, tomorrowTasks, weekTasks } = storeToRefs(todoStore);
+const { todayTasks, tomorrowTasks, weekTasks, tasks } = storeToRefs(todoStore);
 
 const db = useFirestore();
 
@@ -64,7 +64,8 @@ const addTodayTask = async () => {
             list: '',
             color: '',
         },
-        user: user.value!.uid
+        user: user.value!.uid,
+        completed: false,
     });
     today.value = '';
 };
@@ -83,7 +84,8 @@ const addTomorrowTask = async () => {
             list: '',
             color: '',
         },
-        user: user.value!.uid
+        user: user.value!.uid,
+        completed: false,
     });
     tomorrow.value = '';
 };
