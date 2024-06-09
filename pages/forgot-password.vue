@@ -28,7 +28,7 @@ const state = ref({
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>
                     <div class="greetings">
-                        <p class="font-black text-2xl mb-2 capitalize">Find your email</p>
+                        <p class="font-black text-xl sm:text-2xl md:text-xl lg:text-2xl mb-2 capitalize">Find your email</p>
                         <p class="mb-0 text-lg">Please enter your recovery email</p>
                     </div>
                 </div>

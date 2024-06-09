@@ -26,27 +26,32 @@ const state = ref({
 const form = ref(null);
 const termAgree = ref(false);
 
-const auth = useFirebaseAuth();
+const auth = useFirebaseAuth()!;
 
 const signup = async () => {
-    if (state.value.password === state.value.repassword) {
-        await createUserWithEmailAndPassword(auth, state.value.email, state.value.password);
-        await updateProfile(auth.currentUser, {
-            displayName: state.value.username || state.value.email,
-        });
-        state.value = {
-            username: '',
-            email: '',
-            password: '',
-            repassword: ''
+    try {
+        if (state.value.password === state.value.repassword) {
+            await createUserWithEmailAndPassword(auth, state.value.email, state.value.password);
+            await updateProfile(auth.currentUser, {
+                displayName: state.value.username || state.value.email,
+            });
+            state.value = {
+                username: '',
+                email: '',
+                password: '',
+                repassword: ''
+            }
+            termAgree.value = false;
+            navigateTo('/login');
         }
-        termAgree.value = false;
+    } catch (error) {
+        console.log(error)
     }
 }
 
 const user = useCurrentUser();
 
-console.log(user.value.displayName)
+console.log(user.value?.displayName)
 </script>
 
 <template>
@@ -61,7 +66,7 @@ console.log(user.value.displayName)
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>
                     <div class="greetings">
-                        <p class="font-black text-2xl mb-2 capitalize">New here?</p>
+                        <p class="font-black text-xl sm:text-2xl md:text-xl lg:text-2xl mb-2 capitalize">New here?</p>
                         <p class="mb-0 text-lg">Signing up is easy. It only takes a few steps</p>
                     </div>
                 </div>

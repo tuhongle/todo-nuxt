@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useFirebaseAuth, useCurrentUser } from 'vuefire';
 
 const schema = z.object({
     email: z.string().email('Invalid email'),
@@ -14,10 +16,31 @@ const state = ref({
     password: ''
 })
 
+const auth = useFirebaseAuth()!;
 const user = useCurrentUser();
 
-console.log(user)
+const form = ref();
 
+const login = async () => {
+    try {
+        await signInWithEmailAndPassword(auth, state.value.email, state.value.password);
+        state.value = {
+            email: '',
+            password: ''
+        }
+        navigateTo('/todo');
+    } catch (err) {
+        switch (err.code) {
+            case 'auth/invalid-credential':
+                
+                break;
+            default:
+                break; 
+        }
+    }
+}
+        
+console.log(user.value)
 </script>
 
 <template>
@@ -33,21 +56,23 @@ console.log(user)
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>
                     <div class="greetings">
-                        <p class="font-extrabold text-2xl mb-2 capitalize">Hello! let's get started</p>
+                        <p class="font-extrabold text-xl sm:text-2xl md:text-xl lg:text-2xl mb-2 capitalize">Hello! let's get started</p>
                         <p class="mb-0 text-lg">Sign in to continue.</p>
                     </div>
                 </div>
                 <div class="form-wrapper">
-                    <UForm :schema :state class="space-y-6">
-                        <UFormGroup label="Email" name="email">
-                            <UInput v-model="state.email" size="lg"/>
+                    <UForm :schema :state ref="form" class="space-y-6" @submit="login">
+                        <UFormGroup label="Email" name="email" required>
+                            <UInput v-model="state.email" size="lg" />
                         </UFormGroup>
 
-                        <UFormGroup label="Password" name="password">
-                            <UInput v-model="state.password" type="password" size="lg"/>
+                        <UFormGroup label="Password" name="password" required>
+                            <UInput v-model="state.password" type="password" size="lg" />
                         </UFormGroup>
 
-                        <UButton type="submit" size="xl" class="uppercase w-1/3 justify-center">Sign In</UButton>
+                        <p></p>
+
+                        <UButton type="submit" size="xl" class="uppercase w-1/2 sm:w-1/3 justify-center">Sign In</UButton>
 
                         <div class="flex items-center justify-between">
                             <UCheckbox>
