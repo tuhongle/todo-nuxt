@@ -1,55 +1,72 @@
 <script setup lang="ts">
-import { useTodoStore } from '../stores/todoStore'
+import { z } from 'zod'
+import type { FormSubmitEvent } from '#ui/types'
 
-const todoStore = useTodoStore();
+const schema = z.object({
+    username: z.string(),
+    email: z.string().email('Invalid email'),
+    password: z.string().min(8, 'Must be at least 8 characters'),
+    repassword: z.string()
+})
+
+type Schema = z.output<typeof schema>
+
+const state = ref({
+    username: '',
+    email: '',
+    password: '',
+    repassword: ''
+})
+
+// const todoStore = useTodoStore();
+
 </script>
 
 <template>
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col col-md-8 col-lg-6 text-start p-4 mx-auto">
-                <div class="card shadow p-4 p-md-5 rounded-4 overflow-hidden">
-                    <div class="greetings-wrapper d-flex justify-content-between align-items-center mb-4">
-                        <div class="brand-logo d-flex align-items-center">
-                            <RouterLink :to="{name: 'home'}"><img src="/todo.png" alt="" class="img-fluid" width="100"></RouterLink>
-                        </div>
-                        <div class="greetings ms-3">
-                            <p class="fs-4 fw-bold mb-1">New here?</p>
-                            <p class="mb-0">Signing up is easy. It only takes a few steps</p>
-                        </div>
+    <div class="container-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <ULink to="/">
+            <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
+        </ULink>
+        <div class="flex items-center justify-center p-4 md:p-8 lg:p-12 xl:p-16">
+            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8">
+                <div class="flex items-center gap-4 mb-8">
+                    <ULink class="shrink">
+                        <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
+                    </ULink>
+                    <div class="greetings">
+                        <p class="font-black text-2xl mb-2 capitalize">New here?</p>
+                        <p class="mb-0 text-lg">Signing up is easy. It only takes a few steps</p>
                     </div>
-                    <div class="form-wrapper">
-                        <form @submit.prevent="todoStore.signUp">
-                            <div class="form-group mb-3">
-                                <input class="form-control shadow-none ps-4 py-3 rounded-0" type="email" placeholder="Email" v-model="todoStore.mail" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <input class="form-control shadow-none ps-4 py-3 rounded-0" type="password" placeholder="Password" v-model="todoStore.pass" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <input class="form-control shadow-none ps-4 py-3 rounded-0" type="text" placeholder="Username" v-model="todoStore.name">
-                            </div>
-                            <div class="form-group mb-3">
-                                <input class="form-control shadow-none ps-4 py-3 rounded-0" type="text" placeholder="Avatar URL" v-model="todoStore.url">
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between my-3">
-                                <div class="ps-0">
-                                    <label class="form-check-label text-muted">
-                                        <input type="checkbox" class="form-check-input" v-model="todoStore.termAgree">
-                                        <span class="ms-2 text-muted">I agree to all Terms & Conditions</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <p class="text-danger" v-if="todoStore.signUpMsg">{{ todoStore.signUpMsg }}</p>
-                            <button class="btn btn-primary btn-block px-4 py-2 fs-4 text-light" type="submit">SIGN UP</button>
-                            <p class="text-center lead mt-3">
-                                Already have an account?
-                                <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-                            </p>
-                        </form>
-                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <UForm :schema :state class="space-y-6">
+                        <UFormGroup label="Username" name="username">
+                            <UInput v-model="state.username" size="lg"/>
+                        </UFormGroup>
+
+                        <UFormGroup label="Email" name="email">
+                            <UInput v-model="state.email" size="lg"/>
+                        </UFormGroup>
+
+                        <UFormGroup label="Password" name="password">
+                            <UInput v-model="state.password" type="password" size="lg"/>
+                        </UFormGroup>
+
+                        <UFormGroup label="Confirm Password" name="repassword">
+                            <UInput v-model="state.repassword" type="password" size="lg"/>
+                        </UFormGroup>
+
+                        <UCheckbox label="I agree to all Terms & Conditions" class="text-sm" />
+
+                        <UButton type="submit" size="xl" class="uppercase">Sign Up</UButton>
+
+                        <p class="text-center">
+                            Already have an account?
+                            <ULink class="underline text-primary" to="/login">Login</ULink>
+                        </p>
+                    </UForm>
                 </div>
             </div>
         </div>
     </div>
-  </template>
+</template>

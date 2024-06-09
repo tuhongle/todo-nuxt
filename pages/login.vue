@@ -1,5 +1,21 @@
 <script setup lang="ts">
+import { z } from 'zod'
+import type { FormSubmitEvent } from '#ui/types'
+
+const schema = z.object({
+    email: z.string().email('Invalid email'),
+    password: z.string().min(8, 'Must be at least 8 characters')
+})
+
+type Schema = z.output<typeof schema>
+
+const state = ref({
+    email: '',
+    password: ''
+})
+
 // const todoStore = useTodoStore();
+
 </script>
 
 <template>
@@ -8,8 +24,8 @@
             <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
         </ULink>
         <div class="flex items-center justify-center p-4 md:p-8 lg:p-12 xl:p-16">
-            <div class="shadow-lg rounded-lg container p-2 md:p-4 lg:p-8">
-                <div class="flex items-center gap-4">
+            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8">
+                <div class="flex items-center gap-4 mb-8">
                     <ULink class="shrink">
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>
@@ -19,29 +35,30 @@
                     </div>
                 </div>
                 <div class="form-wrapper">
-                    <form @submit.prevent="">
-                        <div class="">
-                            <input class="" type="text" placeholder="Email" required>
+                    <UForm :schema :state class="space-y-6">
+                        <UFormGroup label="Email" name="email">
+                            <UInput v-model="state.email" size="lg"/>
+                        </UFormGroup>
+
+                        <UFormGroup label="Password" name="password">
+                            <UInput v-model="state.password" type="password" size="lg"/>
+                        </UFormGroup>
+
+                        <UButton type="submit" size="xl" class="uppercase">Sign In</UButton>
+
+                        <div class="flex items-center justify-between">
+                            <UCheckbox>
+                                <template #label>
+                                    <span class="text-sm text-gray-500">Keep me signed in</span>
+                                </template>
+                            </UCheckbox>
+                            <ULink class="text-sm underline text-green-400" to="/forgot-password">Forgot Password?</ULink>
                         </div>
-                        <div class="">
-                            <input class="" type="password" placeholder="Password" required>
-                        </div>
-                        <p class="text-danger mb-3">{{ }}</p>
-                        <button class="" type="submit">SIGN IN</button>
-                        <div class="">
-                            <div class="me-2">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
-                                    <span class="ms-2 text-muted">Keep me signed in</span>
-                                </label>
-                            </div>
-                            <RouterLink class="text-dark">Forgot password?</RouterLink>
-                        </div>
-                        <p class="text-center lead">
+                        <p class="text-center">
                             Don't have an account?
-                            <NuxtLink :to="{ name: 'signup' }">Create</NuxtLink>
+                            <ULink class="underline text-primary" to="/signup">Create</ULink>
                         </p>
-                    </form>
+                    </UForm>
                 </div>
             </div>
         </div>

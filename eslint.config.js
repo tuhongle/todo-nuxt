@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
+import js from "@eslint/js";
 
 
 export default [
@@ -9,4 +10,11 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/essential"],
+  js.configs.recommended,
+   {
+      rules: {
+          "no-unused-vars": "warn",
+          "no-undef": "warn"
+      }
+   }
 ];
