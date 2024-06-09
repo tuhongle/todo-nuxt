@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
+import { useFirebaseAuth } from 'vuefire'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 const schema = z.object({
     username: z.string(),
@@ -18,17 +20,40 @@ const state = ref({
     repassword: ''
 })
 
-// const todoStore = useTodoStore();
+const validate = (state: any): FormError[] => {
+  const errors = []
+  if (!state.email) errors.push({ path: 'email', message: 'Required' })
+  if (!state.password) errors.push({ path: 'password', message: 'Required' })
+  if (state.value.password !== state.value.repassword) errors.push({ path: 'repassword', message: 'Password does not match'})
+  return errors
+}
+
+const auth = useFirebaseAuth();
+
+const signup = async () => {
+    if (state.value.password === state.value.repassword) {
+        await createUserWithEmailAndPassword(auth, state.value.email, state.value.password);
+        await updateProfile(auth.currentUser, {
+            displayName: state.value.username || state.value.email,
+        });
+        state.value = {
+            username: '',
+            email: '',
+            password: '',
+            repassword: ''
+        }
+    }
+}
 
 </script>
 
 <template>
-    <div class="container-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+    <div class="container-xl grid grid-cols-1 md:grid-cols-2">
         <ULink to="/">
             <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
         </ULink>
-        <div class="flex items-center justify-center p-4 md:p-8 lg:p-12 xl:p-16">
-            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8">
+        <div class="flex items-center justify-center bg-green-200 p-4 md:p-8 lg:p-12 xl:p-16">
+            <div class="shadow-2xl rounded-lg container bg-white p-2 md:p-4 lg:p-8">
                 <div class="flex items-center gap-4 mb-8">
                     <ULink class="shrink">
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
@@ -39,7 +64,7 @@ const state = ref({
                     </div>
                 </div>
                 <div class="form-wrapper">
-                    <UForm :schema :state class="space-y-6">
+                    <UForm :validate :schema :state class="space-y-6" @submit="signup">
                         <UFormGroup label="Username" name="username">
                             <UInput v-model="state.username" size="lg"/>
                         </UFormGroup>

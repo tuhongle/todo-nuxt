@@ -10,6 +10,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/essential"],
+  ts.configs.recommended,
   js.configs.recommended,
    {
       rules: {

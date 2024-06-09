@@ -17,12 +17,12 @@ const state = ref({
 </script>
 
 <template>
-    <div class="container-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+    <div class="container-xl grid grid-cols-1 md:grid-cols-2">
         <ULink to="/">
             <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
         </ULink>
-        <div class="flex items-center justify-center p-4 md:p-8 lg:p-12 xl:p-16">
-            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8">
+        <div class="flex items-center justify-center bg-green-200 p-4 md:p-8 lg:p-12 xl:p-16">
+            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8 bg-white">
                 <div class="flex items-center gap-4 mb-8">
                     <ULink class="shrink">
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
@@ -42,7 +42,7 @@ const state = ref({
                             <UButton type="submit" size="xl" class="uppercase">Next</UButton>
                         </div>
                     </UForm>
-                    <p class="text-gray-500">Thank you! Please check you email to reset your password.</p>
+                    <p class="text-gray-500 text-lg">Thank you! Please check you email to reset your password.</p>
                 </div>
             </div>
         </div>

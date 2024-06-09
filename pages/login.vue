@@ -19,18 +19,19 @@ const state = ref({
 </script>
 
 <template>
-    <div class="container-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+    <div class="container-xl grid grid-cols-1 md:grid-cols-2">
         <ULink to="/">
             <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
         </ULink>
-        <div class="flex items-center justify-center p-4 md:p-8 lg:p-12 xl:p-16">
-            <div class="shadow-2xl rounded-lg container p-2 md:p-4 lg:p-8">
-                <div class="flex items-center gap-4 mb-8">
+        <div class="flex items-center justify-center bg-green-200 p-4 md:p-8 lg:p-12 xl:p-16">
+            <div class="shadow-2xl rounded-lg container bg-white p-2 md:p-4 lg:p-8">
+                <div class="flex items-center justify-between
+                 gap-4 mb-8">
                     <ULink class="shrink">
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>
                     <div class="greetings">
-                        <p class="font-black text-2xl mb-2 capitalize">Hello! let's get started</p>
+                        <p class="font-extrabold text-2xl mb-2 capitalize">Hello! let's get started</p>
                         <p class="mb-0 text-lg">Sign in to continue.</p>
                     </div>
                 </div>

@@ -15,6 +15,11 @@ export default defineNuxtConfig({
   }],
   ],
   vuefire: {
+    auth: {
+      enabled: true,
+      // enables the sessionCookie
+      sessionCookie: true
+    },
     config: {
       apiKey: 'AIzaSyCChuOQ3CQ8EvqLb_QqisBFb7YKbYbLGKc',
       authDomain: 'todo-nuxt-19dc8.firebaseapp.com',
