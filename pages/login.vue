@@ -14,17 +14,19 @@ const state = ref({
     password: ''
 })
 
-// const todoStore = useTodoStore();
+const user = useCurrentUser();
+
+console.log(user)
 
 </script>
 
 <template>
     <div class="container-xl grid grid-cols-1 md:grid-cols-2">
-        <ULink to="/">
+        <ULink class="hidden md:block" to="/">
             <img src="/assets/img/hero.jpg" alt="hero image" class="h-screen object-cover w-full">
         </ULink>
-        <div class="flex items-center justify-center bg-green-200 p-4 md:p-8 lg:p-12 xl:p-16">
-            <div class="shadow-2xl rounded-lg container bg-white p-2 md:p-4 lg:p-8">
+        <div class="flex items-center justify-center p-8 lg:p-12 xl:p-16 max-md:bg-hero-img bg-cover h-screen md:bg-green-200">
+            <div class="shadow-2xl rounded-lg container bg-white p-8 md:p-4 lg:p-8">
                 <div class="flex items-center justify-between
                  gap-4 mb-8">
                     <ULink class="shrink">
@@ -45,7 +47,7 @@ const state = ref({
                             <UInput v-model="state.password" type="password" size="lg"/>
                         </UFormGroup>
 
-                        <UButton type="submit" size="xl" class="uppercase">Sign In</UButton>
+                        <UButton type="submit" size="xl" class="uppercase w-1/3 justify-center">Sign In</UButton>
 
                         <div class="flex items-center justify-between">
                             <UCheckbox>

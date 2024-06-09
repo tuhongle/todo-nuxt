@@ -9,6 +9,10 @@ export default <Partial<Config>>{
         fontFamily: {
           main: ['"Nunito Sans"', 'sans-serif']
         },
+        backgroundImage: {
+          'hero-img': "url('/assets/img/hero.jpg')",
+          'home-img': "url('/assets/img/hero01.jpg')",
+        },
         colors: {
           'royal-blue': {
             '50': '#eff5fe',
