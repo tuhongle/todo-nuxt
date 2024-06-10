@@ -61,7 +61,7 @@ console.log(user.value?.displayName)
         </ULink>
         <div class="flex items-center justify-center p-8 lg:p-12 xl:p-16 max-md:bg-hero-img bg-cover h-screen md:bg-green-200">
             <div class="shadow-2xl rounded-lg container bg-white p-8 md:p-4 lg:p-8">
-                <div class="flex items-center gap-4 mb-8">
+                <div class="flex items-center justify-between gap-4 mb-8">
                     <ULink class="shrink">
                         <img src="/assets/img/todo.png" alt="" class="shrink-1" width="100">
                     </ULink>

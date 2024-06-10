@@ -8,7 +8,6 @@ export const useTodoStore = defineStore('todo', () => {
 
   const db = useFirestore();
 
-
   return {
     }
 })
