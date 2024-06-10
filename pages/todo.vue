@@ -19,10 +19,18 @@
           <UBadge color="gray" label="3" :ui="{ rounded: 'rounded-full' }" />
         </UButton>
       </div>
-      <UButtonGroup orientation="horizontal" class="w-full flex justify-between pb-2 shadow-none border-b-2 border-b-cyan-200">
+      <UButtonGroup orientation="horizontal" class="w-full flex justify-between pb-2 shadow-none border-b-2 border-b-cyan-200 mb-4 md:mb-6">
         <UInput placeholder="Enter New To-Do" size="md" variant="none" class="w-full" />
         <UButton color="gray" variant="ghost" icon="i-heroicons-arrow-right" class="hover:cursor-pointer" />
       </UButtonGroup>
+      <div class="space-y-4 md:space-y-8">
+        <SingleTodo />
+      </div>
+      <UButton label="Clear All" size="xl" color="sky" variant="ghost" class="font-semibold">
+        <template #trailing>
+          <UIcon name="i-heroicons-trash" />
+        </template>
+      </UButton>
     </div>
   </section>
 </template>
