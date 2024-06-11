@@ -1,14 +1,18 @@
 
-export type priority = 'Low' | 'Medium' | 'High' | 'None' 
+export type priority = 'low' | 'medium' | 'high' | 'none' 
 
 export interface todoType {
     id: string,
-    msg_task: string,
+    title: string,
     priority: priority,
     tags: string[],
     desc: string,
-    date: string,
-    isChecked: boolean
+    due_date: {
+        seconds: number,
+        nanoseconds: number
+    },
+    isChecked: boolean,
+    user: string
 }
 
 export interface tag {

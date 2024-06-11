@@ -3,12 +3,12 @@
         <div class="col-span-10 md:col-span-11">
             <div class="container grid grid-cols-1 md:grid-cols-2 items-center">
                 <h5 type="button" class="text-gray-500 hover:cursor-pointer hover:text-sky-500 text-lg md:text-lg lg:text-xl mb-4 md:mb-0" @click="isOpen = !isOpen">
-                    Standy meeting with the team @5pm
+                    {{ todo.title }}
                 </h5>
                 <div class="flex items-center justify-evenly">
-                    <UButton variant="link" label="Low Priority" class="text-gray-500 hover:text-sky-500 transition-all text-xs sm:text-sm md:text-xs lg:text-sm rounded-none py-0 border-r-2 border-r-gray-300">
+                    <UButton variant="link" :label="`${todo.priority.charAt(0).toUpperCase()+todo.priority.slice(1)} Priority`" class="text-gray-500 hover:text-sky-500 transition-all text-xs sm:text-sm md:text-xs lg:text-sm rounded-none py-0 border-r-2 border-r-gray-300">
                         <template #leading>
-                            <span class="rounded-full bg-indigo-500 w-[14px] h-[14px]"></span>
+                            <span class="rounded-full w-[14px] h-[14px]" :class="[ (todo.priority === 'high') ? 'bg-red-500': '', (todo.priority === 'medium') ? 'bg-orange-500': '', (todo.priority === 'low') ? 'bg-yellow-500': '', (todo.priority === 'none') ? 'bg-gray-500': '' ]"></span>
                         </template>
                     </UButton>
                     <UButton variant="link" icon="i-heroicons-tag" class="text-gray-500 hover:text-sky-500 transition-all py-0" />
@@ -22,9 +22,9 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center justify-end">
             <UCheckbox color="cyan" variant="outline" class="mr-2" />
-            <UButton variant="link" icon="i-heroicons-trash" size="xl" class="text-gray-400 hover:text-cyan-500" />
+            <UButton :padded=false variant="link" icon="i-heroicons-trash" size="xl" class="text-gray-400 hover:text-cyan-500" />
         </div>
     </div>
 
@@ -34,11 +34,21 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
+import { Timestamp } from 'firebase/firestore';
+import type { todoType } from '~/types/todoType';
 
-const date = ref(new Date())
+const props = defineProps<{
+    todo: todoType
+}>()
 
-const todo = defineModel();
+const date = ref(new Date(props.todo.due_date.seconds * 1000))
 
+watch(date, () => {
+    props.todo.due_date = Timestamp.fromDate(new Date(date.value));
+})
+    
 const isOpen = ref(false)
+
+console.log(props.todo)
 
 </script>

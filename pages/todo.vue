@@ -25,7 +25,7 @@
       </UButtonGroup>
       <TransitionGroup name="todo" tag="ul" class="space-y-4">
         <li v-for="todo in todos" :key="todo.id">
-          <SingleTodo v-model="todo" />
+          <SingleTodo :todo />
         </li>
       </TransitionGroup>
       <UButton label="Clear All" size="xl" color="sky" variant="ghost" class="font-semibold">
