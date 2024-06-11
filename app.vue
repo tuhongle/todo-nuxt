@@ -16,9 +16,10 @@ onMounted(() => {
     if (prevUser && !user) {
       // user logged out
       router.push('/login')
-    } else if (user && typeof route.query.redirect === 'string') {
+    } else if (user) {
       // user logged in
-      router.push(route.query.redirect)
+      // router.push(route.query.redirect)
+      router.push('/todo')
     }
   })
 })

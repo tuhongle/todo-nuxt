@@ -19,6 +19,8 @@ const state = ref({
 const auth = useFirebaseAuth()!;
 const user = useCurrentUser();
 
+const errorMessage = ref<string>('');
+
 const form = ref();
 
 const login = async () => {
@@ -32,15 +34,18 @@ const login = async () => {
     } catch (err) {
         switch (err.code) {
             case 'auth/invalid-credential':
-                
+                errorMessage.value = "Email or Password doesn't exist"
                 break;
             default:
+                errorMessage.value = ''
                 break; 
         }
+        setTimeout(() => {
+            errorMessage.value = ''
+        }, 1500)
     }
 }
         
-console.log(user.value)
 </script>
 
 <template>
@@ -70,7 +75,7 @@ console.log(user.value)
                             <UInput v-model="state.password" type="password" size="lg" />
                         </UFormGroup>
 
-                        <p></p>
+                        <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
 
                         <UButton type="submit" size="xl" class="uppercase w-1/2 sm:w-1/3 justify-center">Sign In</UButton>
 
