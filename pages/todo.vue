@@ -8,22 +8,22 @@
       <div class="grid grid-cols-3 gap-4 mb-4 md:mb-8">
         <UButton color="primary" size="lg" class="flex-col md:flex-row place-content-center">
           <span class="text-xs font-bold max-md:mb-2">TOTAL:</span>
-          <UBadge color="gray" label="3" :ui="{ rounded: 'rounded-full'}" />
+          <UBadge color="gray" :label="todos.length" :ui="{ rounded: 'rounded-full'}" />
         </UButton>
         <UButton color="green" size="lg" class="flex-col md:flex-row place-content-center">
           <span class="text-xs font-bold max-md:mb-2">SUCCESS:</span>
-          <UBadge color="gray" label="3" :ui="{ rounded: 'rounded-full'}" />
+          <UBadge color="gray" :label="successTodos.length" :ui="{ rounded: 'rounded-full'}" />
         </UButton>
         <UButton color="orange" size="lg" class="flex-col md:flex-row place-content-center">
           <span class="text-xs font-bold max-md:mb-2">PENDING:</span>
-          <UBadge color="gray" label="3" :ui="{ rounded: 'rounded-full' }" />
+          <UBadge color="gray" :label="todos.length - successTodos.length" :ui="{ rounded: 'rounded-full' }" />
         </UButton>
       </div>
       <UButtonGroup orientation="horizontal" class="w-full flex justify-between pb-2 shadow-none border-b-2 border-b-cyan-200 mb-4 md:mb-6">
         <UInput placeholder="Enter New To-Do" size="md" variant="none" class="w-full *:text-md *:md:text-lg *:lg:text-xl" v-model="newTodo" @keydown.enter="createTodo" />
         <UButton color="gray" variant="ghost" icon="i-heroicons-arrow-right" class="hover:cursor-pointer" />
       </UButtonGroup>
-      <TransitionGroup name="todo" tag="ul" class="space-y-4">
+      <TransitionGroup name="todo" tag="ul" class="space-y-4 mb-4">
         <li v-for="todo in todos" :key="todo.id">
           <SingleTodo :todo />
         </li>
@@ -43,7 +43,7 @@ import { addDoc, collection, Timestamp } from 'firebase/firestore';
 const user = useCurrentUser();
 
 const todoStore = useTodoStore();
-const { todos } = storeToRefs(todoStore);
+const { todos, successTodos } = storeToRefs(todoStore);
 
 const db = useFirestore()
 const newTodo = ref<string>('')
@@ -56,7 +56,8 @@ const createTodo = async () => {
       user: user.value!.uid,
       due_date: Timestamp.fromDate(new Date()),
       priority: 'none',
-      tags: ['']
+      tags: [],
+      isDone: false,
     });
     newTodo.value = '';
   } catch (err) {

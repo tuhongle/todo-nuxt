@@ -11,25 +11,18 @@ export interface todoType {
         seconds: number,
         nanoseconds: number
     },
-    isChecked: boolean,
+    isDone: boolean,
     user: string
+}
+
+export interface priorityType {
+    rank: string,
+    id: string
 }
 
 export interface tag {
     title: string,
     color: string
-}
-
-export interface docType {
-    id: string,
-    data(): {
-        msg_task: string,
-        priority: priority,
-        tags: string[],
-        desc: string,
-        date: string,
-        isChecked: boolean
-    }
 }
 
 export enum colorEnum {

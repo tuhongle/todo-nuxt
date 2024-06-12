@@ -1,12 +1,12 @@
 import { useFirestore, useCollection, useCurrentUser } from 'vuefire'
-import type { todoType } from '../types/todoType'
-import { query, addDoc, onSnapshot, deleteDoc, doc, updateDoc, orderBy, collection, where } from 'firebase/firestore'
+import type { priorityType, todoType } from '../types/todoType'
+import { query, doc, orderBy, collection, where } from 'firebase/firestore'
 
 export const useTodoStore = defineStore('todo', () => {
 
   const db = useFirestore();
 
-  const priority = useCollection(collection(db, 'priorty')) // get priority list
+  const priority = useDocument(doc(db, 'priority', 'Nc7fXRzLEA2rz0Dg0IYZ')) // get priority list
 
   const tags = useCollection(collection(db, 'tags')) // get tags list
 
@@ -15,11 +15,15 @@ export const useTodoStore = defineStore('todo', () => {
 
   const todoQuery = computed(() => query(collection(db, 'todo'), where('user', '==', user.value?.uid), orderBy('due_date')))
 
+  const successTodoQuery = computed(() => query(collection(db, 'todo'), where('user', '==', user.value?.uid), where('isDone', '==', true)))
+
   const todos = useCollection(todoQuery)
+
+  const successTodos = useCollection(successTodoQuery)
 
   return {
       priority, tags,
-      todos,
+      todos, successTodos
     }
 })
 
