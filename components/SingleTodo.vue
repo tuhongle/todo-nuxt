@@ -3,7 +3,7 @@
         <div class="col-span-10 md:col-span-11">
             <div class="container grid grid-cols-1 md:grid-cols-2 items-center">
                 <UTooltip>
-                    <UButton variant="none" class="text-gray-500 hover:cursor-pointer hover:text-sky-500 text-lg md:text-lg lg:text-xl mb-4 md:mb-0" :disabled="todo.isDone" @click="isOpen = !isOpen">
+                    <UButton variant="none" class="text-gray-500 hover:cursor-pointer hover:text-sky-500 text-lg md:text-lg lg:text-xl mb-4 md:mb-0 w-fit" :disabled="todo.isDone" @click="isOpen = !isOpen">
                         {{ todo.title }}
                     </UButton>
 
@@ -12,7 +12,7 @@
                     </template>
                 </UTooltip>
                 <div class="flex items-center justify-evenly">
-                    <UPopover>
+                    <UPopover class="flex items-center">
                         <UButton variant="link" :label="`${todo.priority.charAt(0).toUpperCase()+todo.priority.slice(1)} Priority`" class="text-gray-500 hover:text-sky-500 transition-all text-xs sm:text-sm md:text-xs lg:text-sm rounded-none py-0 border-r-2 border-r-gray-300" :disabled="todo.isDone">
                             <template #leading>
                                 <span class="rounded-full w-[14px] h-[14px]" :class="[ (todo.priority === 'high') ? 'bg-red-500': '', (todo.priority === 'medium') ? 'bg-orange-500': '', (todo.priority === 'low') ? 'bg-yellow-500': '', (todo.priority === 'none') ? 'bg-gray-500': '' ]"></span>
@@ -25,7 +25,19 @@
                             </div>
                         </template>
                     </UPopover>
-                    <UButton variant="link" icon="i-heroicons-tag" class="text-gray-500 hover:text-sky-500 transition-all py-0" :disabled="todo.isDone" />
+                    <UPopover class="flex items-center" :popper="{ placement: 'bottom-start'}">
+                        <UTooltip text="Click to see tags">
+                            <UButton variant="link" icon="i-heroicons-tag" class="text-gray-500 hover:text-sky-500 transition-all py-0" :disabled="todo.isDone" />
+                        </UTooltip>
+
+                        <template #panel>
+                            <ul class="p-4 space-y-2">
+                                <li v-for="(tag, index) in todo.tags" :key="index">
+                                    <UButton :to="`/todo/${tag}`" variant="ghost" :style="{ 'color': tags[tags.findIndex(el => el.title === tag)].color }" class="capitalize">{{ tag }}</UButton>
+                                </li>
+                            </ul>
+                        </template>
+                    </UPopover>
                     <UPopover :popper="{ placement: 'bottom-start' }" class="flex items-center">
                         <UButton color="transparent" class="text-gray-500 hover:text-sky-500 transition-all text-xs sm:text-sm md:text-xs lg:text-sm rounded-none py-0 border-l-2 border-l-gray-300" variant="soft" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" :disabled="todo.isDone" />
 
@@ -38,7 +50,7 @@
         </div>
         <div class="flex items-center justify-end">
             <UCheckbox color="cyan" variant="outline" class="mr-2" v-model="todo.isDone" @change="updateDone"/>
-            <UPopover :popper="{ placement: 'bottom-end' }">
+            <UPopover class="flex items-center" :popper="{ placement: 'bottom-end' }">
                 <UButton :padded=false variant="link" icon="i-heroicons-trash" size="xl" class="text-gray-400 hover:text-cyan-500" />
 
                 <template #panel>
@@ -57,18 +69,20 @@
 
 <script setup lang="ts">
 import { format } from 'date-fns'
-import { deleteDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { string } from 'zod';
+import { collection, deleteDoc, doc, orderBy, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import type { priorityType, todoType } from '~/types/todoType';
+
+const showTagTodos = defineModel('showTagTodos')
 
 const props = defineProps<{
     todo: todoType
 }>()
 
-const db = useFirestore();
+const db = useFirestore()
+const user = useCurrentUser()
 
 const todoStore = useTodoStore()
-const { tags, priority } = storeToRefs(todoStore)
+let { tags, priority } = storeToRefs(todoStore)
 
 const date = ref(new Date(props.todo.due_date.seconds * 1000))
 
@@ -109,6 +123,8 @@ const deleteTodo = async () => {
     await deleteDoc(doc(db, 'todo', props.todo.id))
 }
 
-// console.log(props.todo)
+const emit = defineEmits<{
+    updateTag: [tag: string]
+}>()
 
 </script>

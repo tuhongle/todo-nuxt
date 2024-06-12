@@ -36,9 +36,9 @@
                             <UCheckbox class="px-4 justify-between flex-row-reverse items-center" :value='tag.title' v-model="todo.tags">
                                 <template #label>
                                     <div class="flex items-center text-md text-gray-400">
-                                        <UButton icon="i-heroicons-trash" variant="ghost" @click="deleteTag(tag.id)" />
-                                        <UInput type="color" :padded="false" v-model="tag.color" />
-                                        <span class="text-lg ml-2" :style="{ 'color' : tag.color }">{{ tag.title.charAt(0).toUpperCase() + tag.title.slice(1) }}</span>
+                                        <UButton size="sm" icon="i-heroicons-trash" variant="ghost" class="text-gray-300 hover:text-orange-300 mr-2" @click="deleteTag(tag.id)" />
+                                        <UInput type="color" :padded="false" :value="tag.color" v-model="tag.color" @change="updateTagColor(tag.id, tag.color)" />
+                                        <span class="text-lg ml-2">{{ tag.title.charAt(0).toUpperCase() + tag.title.slice(1) }}</span>
                                     </div>
                                 </template>
                             </UCheckbox>
@@ -56,7 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import { TenantManager } from 'firebase-admin/auth';
 import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import type { todoType } from '~/types/todoType';
 
@@ -131,6 +130,12 @@ const addNewTag = async () => {
 
 const deleteTag = async (id : string) => {
     await deleteDoc(doc(db, 'tags', id ))
+}
+
+const updateTagColor = async (id : string, color: string) => {
+    await updateDoc(doc(db, 'tags', id), {
+        color: color,
+    })
 }
 
 </script>

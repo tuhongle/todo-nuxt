@@ -1,6 +1,5 @@
 import { useFirestore, useCollection, useCurrentUser } from 'vuefire'
-import type { priorityType, todoType } from '../types/todoType'
-import { query, doc, orderBy, collection, where } from 'firebase/firestore'
+import { query, doc, orderBy, collection, where, deleteDoc } from 'firebase/firestore'
 
 export const useTodoStore = defineStore('todo', () => {
 
@@ -21,9 +20,18 @@ export const useTodoStore = defineStore('todo', () => {
 
   const successTodos = useCollection(successTodoQuery)
 
+  const idArray = computed(() => todos.value.map(el => el.id))
+
+  const clearAllTodos = async () => {
+    for (const id of idArray.value) {
+      await deleteDoc(doc(db, 'todo', id))
+    }
+  }
+
   return {
       priority, tags,
-      todos, successTodos
+      todos, successTodos, idArray,
+      clearAllTodos
     }
 })
 
