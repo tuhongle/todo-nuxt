@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useFirebaseAuth, useCurrentUser } from 'vuefire';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const schema = z.object({
     email: z.string().email('Invalid email'),
@@ -43,6 +44,18 @@ const login = async () => {
         setTimeout(() => {
             errorMessage.value = ''
         }, 1500)
+    }
+}
+
+const provider = new GoogleAuthProvider();
+
+const signInWithGoogle = async () => {
+    try {
+        const result = await signInWithPopup(auth, provider)
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential?.accessToken
+    } catch (err) {
+        console.log(err)
     }
 }
         
@@ -87,6 +100,11 @@ const login = async () => {
                             </UCheckbox>
                             <ULink class="text-sm underline text-green-400" to="/forgot-password">Forgot Password?</ULink>
                         </div>
+
+                        <UDivider>OR</UDivider>
+
+                        <UButton block size="xl" color="emerald" label="Sign in with Google" @click="signInWithGoogle" />
+
                         <p class="text-center">
                             Don't have an account?
                             <ULink class="underline text-primary" to="/signup">Create</ULink>

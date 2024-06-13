@@ -10,7 +10,9 @@ export const useTodoStore = defineStore('todo', () => {
   const tags = useCollection(collection(db, 'tags')) // get tags list
 
   // get todo lists by user
-  const user = useCurrentUser();
+  const user = useCurrentUser()
+
+  const currentUser = ref(user.value?.uid)
 
   const todoQuery = computed(() => query(collection(db, 'todo'), where('user', '==', user.value?.uid), orderBy('due_date')))
 
@@ -29,9 +31,10 @@ export const useTodoStore = defineStore('todo', () => {
   }
 
   return {
+      currentUser,
       priority, tags,
-      todos, successTodos, idArray,
-      clearAllTodos
+      todos, successTodos,
+      idArray, clearAllTodos
     }
 })
 

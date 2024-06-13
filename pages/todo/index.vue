@@ -70,13 +70,14 @@ const user = useCurrentUser();
 const auth = useFirebaseAuth();
 
 const todoStore = useTodoStore();
-const { todos, successTodos, idArray } = storeToRefs(todoStore);
+const { todos, successTodos, currentUser } = storeToRefs(todoStore);
 
-console.log(idArray.value)
+if (currentUser.value !== user.value!.uid) {
+  reloadNuxtApp()
+}
 
 const db = useFirestore()
 const newTodo = ref<string>('')
-const showTagTodos = ref(false);
 
 const createTodo = async () => {
   try {
@@ -100,6 +101,7 @@ const createTodo = async () => {
 // Sign out user
 const signOutUser = async () => {
   await signOut(auth!)
+  currentUser.value = user.value?.uid
   navigateTo('/login')
 }
 

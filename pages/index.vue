@@ -14,8 +14,6 @@ const state = ref({
     password: ''
 })
 
-// const todoStore = useTodoStore();
-
 </script>
 
 <template>
